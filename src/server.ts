@@ -1,10 +1,9 @@
 import Koa from 'koa'
+
+import { router } from './routes/routes'
+
 const app = new Koa()
 
-app.use(async ctx => {
-  ctx.body = 'Hello World'
-})
+app.use(router())
 
-app.listen(3000, () => {
-  console.log('Server is listening to port 3000')
-})
+app.listen(3000)

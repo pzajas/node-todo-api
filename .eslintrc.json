@@ -15,9 +15,15 @@
         "project": "./tsconfig.json"
     },
     "plugins": [
-        "react"
+        "react","simple-import-sort"
     ],
     "rules": {
-        "prefer-template": 1
+        "prefer-template": 1,
+
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error"
     }
 }
