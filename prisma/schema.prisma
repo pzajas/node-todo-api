@@ -14,7 +14,7 @@ model User {
 
   password String
 
-  Todo Todo[]
+  Todos Todo[]
 }
 
 model Todo {
