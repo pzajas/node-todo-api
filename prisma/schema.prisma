@@ -14,19 +14,18 @@ model User {
 
   password String
 
-  Todos Todo[]
+  todos Todo[]
+
+  @@unique([id])
 }
 
 model Todo {
   id     Int    @id @default(autoincrement())
   value  String @unique
-  status Status @default(INCOMPLETE)
+  status String
 
-  author   User @relation(fields: [authorId], references: [id])
-  authorId Int
-}
+  author     User   @relation(fields: [authorName], references: [username])
+  authorName String
 
-enum Status {
-  COMPLETE
-  INCOMPLETE
+  @@unique([id])
 }
