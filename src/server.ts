@@ -10,8 +10,8 @@ app.get('/', (req: any, res: any) => {
   res.render('index.ejs')
 })
 
-app.use('/login', loginRouter)
-app.use('/logout', logoutRouter)
-app.use('/register', registerRouter)
+app.use('/', loginRouter)
+app.use('/', logoutRouter)
+app.use('/', registerRouter)
 
 app.listen(3000, () => 'server runs on 3000')
