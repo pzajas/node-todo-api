@@ -1,9 +1,17 @@
-import Koa from 'koa'
+import express from 'express'
 
-import { router } from './routes/routes'
+import { loginRouter } from './routes/auth/loginRouter'
+import { logoutRouter } from './routes/auth/logoutRouter'
+import { registerRouter } from './routes/auth/registerRouter'
 
-const app = new Koa()
+const app = express()
 
-app.use(router())
+app.get('/', (req: any, res: any) => {
+  res.render('index.ejs')
+})
 
-app.listen(3000)
+app.use('/login', loginRouter)
+app.use('/logout', logoutRouter)
+app.use('/register', registerRouter)
+
+app.listen(3000, () => 'server runs on 3000')
