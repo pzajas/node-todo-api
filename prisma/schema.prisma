@@ -24,8 +24,8 @@ model Todo {
   value  String @unique
   status String
 
-  author     User   @relation(fields: [authorName], references: [username])
-  authorName String
+  authorName User   @relation(fields: [author], references: [username])
+  author     String
 
   @@unique([id])
 }
