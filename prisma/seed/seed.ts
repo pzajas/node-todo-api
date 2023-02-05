@@ -1,29 +1,30 @@
 import { PrismaClient } from '@prisma/client'
-import { adjectives, animals, names, uniqueNamesGenerator } from 'unique-names-generator'
 
-import { createUser } from './user/createUser'
+import { type User } from '../typescript/userTypes'
+import { createUsers } from './user/createUsers'
 
 const prisma = new PrismaClient()
 
+const users = createUsers()
+
 const seedDatabase = async (): Promise<void> => {
-  const username = uniqueNamesGenerator({ dictionaries: [names] })
-  const password = uniqueNamesGenerator({ dictionaries: [animals] })
-  const activity = uniqueNamesGenerator({ dictionaries: [adjectives] })
+  await Promise.all(
+    users.map(async (user: User) =>
+      await prisma.user.upsert({
+        where: { username: user.username },
+        update: {},
+        create: user
+      })
+    )
+  )
+}
 
-  await prisma.user.upsert({
-    where: { username },
-    update: {},
-    create: createUser(username, password, activity)
+seedDatabase()
+  .then(async () => {
+    await prisma.$disconnect()
   })
-}
-
-for (let i = 0; i < 10; i++) {
-  seedDatabase()
-    .then(async () => {
-      await prisma.$disconnect()
-    })
-    .catch(async e => {
-      await prisma.$disconnect()
-      process.exit(1)
-    })
-}
+  .catch(async e => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })

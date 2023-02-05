@@ -1,6 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface Todo {
-  id: number
+export interface Todo {
   value: string
   status: string
+  author?: string
 }
