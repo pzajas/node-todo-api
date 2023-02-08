@@ -21,7 +21,7 @@ model User {
 
 model Todo {
   id     Int    @id @default(autoincrement())
-  value  String @unique
+  value  String
   status String
 
   authorName User   @relation(fields: [author], references: [username])

@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
 import { type User } from '../typescript/userTypes'
-import { createUsers } from './user/createUsers'
+import { createUsers } from './data/createUsers'
 
 const prisma = new PrismaClient()
 
