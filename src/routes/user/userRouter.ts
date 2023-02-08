@@ -1,35 +1,52 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { PrismaClient } from '@prisma/client'
 import express, { type Request, type Response } from 'express'
-import { body, validationResult } from 'express-validator'
-
-import * as UserService from '../../services/userService'
 
 export const userRouter = express.Router()
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
-userRouter.get('/', async (_req: Request, res: Response) => {
-  try {
-    const users = await UserService.listUsers()
-    return res.status(200).json(users)
-  } catch (error: any) {
-    return res.status(500).json(error.message)
-  }
-})
+const prisma = new PrismaClient()
 
-userRouter.post('/', body('username').isString(), body('password').isString(), body('email').isString(),
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  async (req: Request, res: Response) => {
-    const errors = validationResult(req)
-
-    if (!errors.isEmpty()) {
-      return res.status(200).json({ errors: errors.array() })
-    }
-
-    try {
-      const user = req.body
-
-      const newUser = await UserService.createUser(user)
-      return res.status(200).json(newUser)
-    } catch (error: any) {
-      return res.status(500).json(error.message)
+userRouter.get('/', async (req: Request, res: Response) => {
+  const users = await prisma.user.findMany({
+    where: {
+      email: { endsWith: '.com' }
+    },
+    orderBy: {
+      id: 'asc'
     }
   })
+  return res.json(users)
+})
+
+userRouter.post('/', async (req: Request, res: any) => {
+  const users = await prisma.user.create({
+    data: {
+      username: 'Dash',
+      password: 'Dash',
+      email: 'dash@gmail.com',
+      todos: {}
+    }
+  })
+  return res.json(users)
+})
+
+userRouter.patch('/', async (req: Request, res: Response) => {
+  const users = await prisma.user.update({
+    where: {
+      username: 'Dash'
+    },
+    data: {
+      username: 'Rainbow'
+    }
+  })
+  return res.json(users)
+})
+
+userRouter.delete('/', async (req: Request, res: any) => {
+  const users = await prisma.user.delete({
+    where: {
+      username: 'Dash'
+    }
+  })
+  return res.json(users)
+})
