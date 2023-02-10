@@ -1,52 +1,16 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { PrismaClient } from '@prisma/client'
-import express, { type Request, type Response } from 'express'
+import express from 'express'
+
+import { UserController } from '../../controllers/user/userController'
 
 export const userRouter = express.Router()
 
-const prisma = new PrismaClient()
+userRouter.get('/', UserController.getUsers)
 
-userRouter.get('/', async (req: Request, res: Response) => {
-  const users = await prisma.user.findMany({
-    where: {
-      email: { endsWith: '.com' }
-    },
-    orderBy: {
-      id: 'asc'
-    }
-  })
-  return res.json(users)
-})
+userRouter.post('/', UserController.postUser)
 
-userRouter.post('/', async (req: Request, res: any) => {
-  const users = await prisma.user.create({
-    data: {
-      username: 'Dash',
-      password: 'Dash',
-      email: 'dash@gmail.com',
-      todos: {}
-    }
-  })
-  return res.json(users)
-})
+userRouter.get('/:id', UserController.getUser)
 
-userRouter.patch('/', async (req: Request, res: Response) => {
-  const users = await prisma.user.update({
-    where: {
-      username: 'Dash'
-    },
-    data: {
-      username: 'Rainbow'
-    }
-  })
-  return res.json(users)
-})
+userRouter.patch('/:id', UserController.updateUser)
 
-userRouter.delete('/', async (req: Request, res: any) => {
-  const users = await prisma.user.delete({
-    where: {
-      username: 'Dash'
-    }
-  })
-  return res.json(users)
-})
+userRouter.delete('/:id', UserController.deleteUser)
