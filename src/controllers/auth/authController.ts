@@ -4,29 +4,25 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+import dotenv from 'dotenv'
 import { type Request, type Response } from 'express'
 import jwt from 'jsonwebtoken'
 
+dotenv.config()
+
 const prisma = new PrismaClient()
 
-export const authToken = (req: any, res: any, next: any) => {
-  const authHeader = req.headers.authorization
-
-  const token = authHeader && authHeader.split(' ')[1]
+export const authenticateUser = (req: any, res: any, next: any) => {
+  const token = req.cookies.JWT
 
   if (token === null) return res.status(401)
-  try {
-    jwt.verify(token, '123', (err: any, user: any) => {
-      if (!err) {
-        req.user = user
-        next()
-      } else {
-        res.status(403).send({ msg: 'Forbidden' })
-      }
-    })
-  } catch {
-    res.send(500)
-  }
+
+  jwt.verify(token, '123', (err: any, user: any) => {
+    if (err) res.status(403).send({ msg: 'Forbidden' })
+
+    req.user = user
+    next()
+  })
 }
 
 export const AuthController = {
@@ -57,19 +53,28 @@ export const AuthController = {
     })
 
     if (user === null) return res.status(400).send({ message: 'Cannot find the user' })
-    if (await bcrypt.compare(password, user.password) && username === user.username) {
-      const accessToken = jwt.sign(user, '123', { expiresIn: '1m' })
-      const refreshToken = jwt.sign(user, '456', { expiresIn: '1d' })
 
-      res.status(200).send({ msg: 'Logged in', accessToken, refreshToken })
+    try {
+      const valid = await bcrypt.compare(password, user.password) && username === user.username
+
+      if (valid) {
+        const accessToken = jwt.sign(user, '123', { expiresIn: '30s' })
+        const refreshToken = jwt.sign(user, '456', { expiresIn: '1d' })
+
+        res.cookie('JWT', accessToken, {
+          maxAge: 86400000,
+          httpOnly: true
+        })
+
+        res.status(200).send({ msg: 'Logged in', accessToken, refreshToken })
+      }
+    } catch (error) {
+      res.status(500).send({ msg: error })
     }
   },
 
-  logout: (_req: Request, res: Response) => {
-  },
-
   refresh: async (req: Request, res: Response) => {
-    const refreshToken = req.body.token
+    const refreshToken = req.body.refreshToken
 
     const user: any = await prisma.user.findUnique({
       where: {
@@ -82,7 +87,34 @@ export const AuthController = {
     }
 
     try {
-      jwt.verify(refreshToken, '321', (err: any, user: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+      const valid = await jwt.verify(refreshToken, '456')
+      if (valid) {
+        const accessToken = jwt.sign(user, '123', { expiresIn: '1m' })
+
+        res.cookie('JWT', accessToken, {
+          maxAge: 86400000,
+          httpOnly: true
+        }).send({ accessToken })
+      }
+    } catch {
+      return res.sendStatus(403)
+    }
+  },
+
+  logout: async (req: Request, res: Response) => {
+    const user: any = await prisma.user.findUnique({
+      where: {
+        username: 'admin'
+      }
+    })
+
+    if (!user) {
+      return res.status(401)
+    }
+
+    try {
+      jwt.verify(user, '123', (err: any, user: any) => {
         if (!err) {
           console.log(err)
         }
@@ -95,4 +127,5 @@ export const AuthController = {
 
     res.send({ accessToken })
   }
+
 }
