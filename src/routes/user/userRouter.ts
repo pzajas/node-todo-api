@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 
-import { authToken } from '../../controllers/auth/authController'
+import { authenticateUser } from '../../controllers/auth/authController'
 import { UserController } from '../../controllers/user/userController'
 
 export const userRouter = express.Router()
 
-userRouter.get('/', authToken, UserController.getUsers)
+userRouter.get('/', authenticateUser, UserController.getUsers)
 
-userRouter.post('/', UserController.postUser)
+userRouter.post('/', authenticateUser, UserController.postUser)
 
-userRouter.get('/:id', UserController.getUser)
+userRouter.get('/:id', authenticateUser, UserController.getUser)
 
-userRouter.patch('/:id', UserController.updateUser)
+userRouter.patch('/:id', authenticateUser, UserController.updateUser)
 
-userRouter.delete('/:id', UserController.deleteUser)
+userRouter.delete('/:id', authenticateUser, UserController.deleteUser)
