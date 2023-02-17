@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { authenticateUser } from '../controllers/auth/authController'
+import { authenticateUser } from '../middlewares/auth/authenticateUser'
 import { authRouter } from './auth/authRouter'
 import { userRouter } from './user/userRouter'
 

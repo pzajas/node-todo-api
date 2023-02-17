@@ -10,7 +10,7 @@ export const UserController = {
         id: 'asc'
       }
     })
-    res.send(users)
+    return res.send(users)
   },
 
   getUser: async (req: Request, res: Response) => {

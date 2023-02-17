@@ -4,29 +4,16 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
-import dotenv from 'dotenv'
 import { type Request, type Response } from 'express'
 import jwt from 'jsonwebtoken'
+import { env } from 'process'
 
-dotenv.config()
+import { HTTP_CODES, HTTP_MESSAGES } from '../../interfaces/Responses/Responses'
 
 const prisma = new PrismaClient()
 
-export const authenticateUser = (req: any, res: any, next: any) => {
-  const token = req.cookies.JWT
-
-  if (token === null) return res.status(401)
-
-  jwt.verify(token, '123', (err: any, user: any) => {
-    if (err) res.status(403).send({ msg: 'Forbidden' })
-
-    req.user = user
-    next()
-  })
-}
-
 export const AuthController = {
-  register: async (req: any, res: any) => {
+  register: async (req: Request, res: Response) => {
     const { username, email, password, todos } = req.body
 
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -40,57 +27,55 @@ export const AuthController = {
       }
     })
 
-    return res.status(201).send(user)
+    return res.status(HTTP_CODES.CREATED).send(user)
   },
 
   login: async (req: Request, res: Response) => {
     const { username, password } = req.body
-
-    const user: any = await prisma.user.findUnique({
-      where: {
-        username
-      }
-    })
-
-    if (user === null) return res.status(400).send({ message: 'Cannot find the user' })
+    if (!username || !password) return res.status(HTTP_CODES.UNAUTHORIZED).send({ message: HTTP_MESSAGES.UNAUTHORIZED })
 
     try {
-      const valid = await bcrypt.compare(password, user.password) && username === user.username
+      const user = await prisma.user.findUnique({
+        where: {
+          username
+        }
+      })
 
-      if (valid) {
-        const accessToken = jwt.sign(user, '123', { expiresIn: '30s' })
-        const refreshToken = jwt.sign(user, '456', { expiresIn: '1d' })
+      if (user && await bcrypt.compare(password, user.password)) {
+        const accessToken = jwt.sign(user, env.TOKEN_SECRET, { expiresIn: '30m' })
+        const refreshToken = jwt.sign(user, env.REFRESH_SECRET, { expiresIn: '1d' })
 
         res.cookie('JWT', accessToken, {
           maxAge: 86400000,
           httpOnly: true
         })
-
-        res.status(200).send({ msg: 'Logged in', accessToken, refreshToken })
+        res.status(HTTP_CODES.OK).json({ message: HTTP_MESSAGES.OK, token: accessToken, refreshToken })
+      } else {
+        res.status(HTTP_CODES.UNAUTHORIZED).send(HTTP_MESSAGES.UNAUTHORIZED)
       }
     } catch (error) {
-      res.status(500).send({ msg: error })
+      res.status(HTTP_CODES.INTERNAL_ERROR).send({ msg: error })
     }
   },
-
-  refresh: async (req: Request, res: Response) => {
+  // CANNOT REFRESH CUZ FORBIDDEN - FIX TMRW
+  refresh: async (req: any, res: any) => {
     const refreshToken = req.body.refreshToken
 
     const user: any = await prisma.user.findUnique({
       where: {
-        username: 'admin'
+        username: env.USERNAME
       }
     })
 
     if (!refreshToken) {
-      return res.status(401)
+      return res.status(HTTP_CODES.UNAUTHORIZED)
     }
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-      const valid = await jwt.verify(refreshToken, '456')
+      const valid = await jwt.verify(refreshToken, env.REFRESH_SECRET)
       if (valid) {
-        const accessToken = jwt.sign(user, '123', { expiresIn: '1m' })
+        const accessToken = jwt.sign(user, env.TOKEN_SECRET, { expiresIn: '30m' })
 
         res.cookie('JWT', accessToken, {
           maxAge: 86400000,
@@ -98,34 +83,24 @@ export const AuthController = {
         }).send({ accessToken })
       }
     } catch {
-      return res.sendStatus(403)
+      return res.sendStatus(HTTP_CODES.FORBIDDEN)
     }
   },
 
   logout: async (req: Request, res: Response) => {
-    const user: any = await prisma.user.findUnique({
-      where: {
-        username: 'admin'
-      }
-    })
+    const token = req.cookies.JWT
 
-    if (!user) {
-      return res.status(401)
-    }
+    if (!token) res.status(HTTP_CODES.UNAUTHORIZED)
+
+    const valid = jwt.verify(token, env.TOKEN_SECRET)
 
     try {
-      jwt.verify(user, '123', (err: any, user: any) => {
-        if (!err) {
-          console.log(err)
-        }
-      })
-    } catch {
-      res.send(500)
+      if (valid) {
+        res.clearCookie('JWT')
+        res.status(HTTP_CODES.OK).json({ status: HTTP_CODES.OK, message: HTTP_MESSAGES.OK })
+      }
+    } catch (error) {
+      res.status(HTTP_CODES.UNAUTHORIZED).json({ status: HTTP_CODES.UNAUTHORIZED, message: HTTP_MESSAGES.UNAUTHORIZED })
     }
-
-    const accessToken = jwt.sign(user, '123', { expiresIn: '1m' })
-
-    res.send({ accessToken })
   }
-
 }
