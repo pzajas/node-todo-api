@@ -1,16 +1,20 @@
-/* eslint-disable @typescript-eslint/await-thenable */
-/* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 import { type Request, type Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { env } from 'process'
 
-import { HTTP_CODES, HTTP_MESSAGES } from '../../interfaces/Responses/Responses'
+import { HTTP_CODES, HTTP_STATUSES } from '../../interfaces/Responses/Responses'
 
 const prisma = new PrismaClient()
+
+const ACCESS_TOKEN_EXPIRATION_TIME = '30m'
+const REFRESH_TOKEN_EXPIRATION_TIME = '30d'
+
+const JWT_COOKIE_MAX_AGE = 86400000
+const JWT_COOKIE_HTTP_ONLY = true
 
 export const AuthController = {
   register: async (req: Request, res: Response) => {
@@ -27,12 +31,13 @@ export const AuthController = {
       }
     })
 
-    return res.status(HTTP_CODES.CREATED).send(user)
+    return res.status(HTTP_CODES.CREATED).json({ ...HTTP_STATUSES.CREATED, user })
   },
 
   login: async (req: Request, res: Response) => {
     const { username, password } = req.body
-    if (!username || !password) return res.status(HTTP_CODES.UNAUTHORIZED).send({ message: HTTP_MESSAGES.UNAUTHORIZED })
+
+    if (!username || !password) return res.status(HTTP_CODES.UNAUTHORIZED).json({ ...HTTP_STATUSES.UNAUTHORIZED })
 
     try {
       const user = await prisma.user.findUnique({
@@ -41,66 +46,64 @@ export const AuthController = {
         }
       })
 
-      if (user && await bcrypt.compare(password, user.password)) {
-        const accessToken = jwt.sign(user, env.TOKEN_SECRET, { expiresIn: '30m' })
-        const refreshToken = jwt.sign(user, env.REFRESH_SECRET, { expiresIn: '1d' })
+      if ((user != null) && await bcrypt.compare(password, user.password)) {
+        const accessToken = jwt.sign(user, env.TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME })
+        const refreshToken = jwt.sign(user, env.REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME })
 
         res.cookie('JWT', accessToken, {
-          maxAge: 86400000,
-          httpOnly: true
+          maxAge: JWT_COOKIE_MAX_AGE,
+          httpOnly: JWT_COOKIE_HTTP_ONLY
         })
-        res.status(HTTP_CODES.OK).json({ message: HTTP_MESSAGES.OK, token: accessToken, refreshToken })
+
+        res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, token: accessToken, refreshToken })
       } else {
-        res.status(HTTP_CODES.UNAUTHORIZED).send(HTTP_MESSAGES.UNAUTHORIZED)
+        return res.status(HTTP_CODES.UNAUTHORIZED).json({ ...HTTP_STATUSES.UNAUTHORIZED })
       }
     } catch (error) {
-      res.status(HTTP_CODES.INTERNAL_ERROR).send({ msg: error })
+      return res.status(HTTP_CODES.INTERNAL_ERROR).json({ ...HTTP_STATUSES.INTERNAL_ERROR })
     }
   },
-  // CANNOT REFRESH CUZ FORBIDDEN - FIX TMRW
-  refresh: async (req: any, res: any) => {
+
+  refresh: async (req: Request, res: Response) => {
     const refreshToken = req.body.refreshToken
 
-    const user: any = await prisma.user.findUnique({
-      where: {
-        username: env.USERNAME
-      }
-    })
-
-    if (!refreshToken) {
-      return res.status(HTTP_CODES.UNAUTHORIZED)
-    }
+    if (!refreshToken) return res.status(HTTP_CODES.UNAUTHORIZED).json({ ...HTTP_STATUSES.UNAUTHORIZED })
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-      const valid = await jwt.verify(refreshToken, env.REFRESH_SECRET)
-      if (valid) {
-        const accessToken = jwt.sign(user, env.TOKEN_SECRET, { expiresIn: '30m' })
+      const user = await prisma.user.findUnique({
+        where: {
+          username: env.LOGIN
+        }
+      })
+
+      if ((user !== null) && jwt.verify(refreshToken, env.REFRESH_SECRET)) {
+        const accessToken = jwt.sign(user, env.TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME })
 
         res.cookie('JWT', accessToken, {
-          maxAge: 86400000,
-          httpOnly: true
-        }).send({ accessToken })
+          maxAge: JWT_COOKIE_MAX_AGE,
+          httpOnly: JWT_COOKIE_HTTP_ONLY
+        })
+
+        return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, token: accessToken })
+      } else {
+        return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
       }
-    } catch {
-      return res.sendStatus(HTTP_CODES.FORBIDDEN)
+    } catch (error) {
+      return res.status(HTTP_CODES.INTERNAL_ERROR).json(HTTP_STATUSES.INTERNAL_ERROR)
     }
   },
 
   logout: async (req: Request, res: Response) => {
     const token = req.cookies.JWT
 
-    if (!token) res.status(HTTP_CODES.UNAUTHORIZED)
-
-    const valid = jwt.verify(token, env.TOKEN_SECRET)
+    if (!token) return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
 
     try {
-      if (valid) {
-        res.clearCookie('JWT')
-        res.status(HTTP_CODES.OK).json({ status: HTTP_CODES.OK, message: HTTP_MESSAGES.OK })
-      }
+      const valid = jwt.verify(token, env.TOKEN_SECRET)
+
+      if (valid) res.clearCookie('JWT').json(HTTP_STATUSES.OK)
     } catch (error) {
-      res.status(HTTP_CODES.UNAUTHORIZED).json({ status: HTTP_CODES.UNAUTHORIZED, message: HTTP_MESSAGES.UNAUTHORIZED })
+      return res.status(HTTP_CODES.INTERNAL_ERROR).json(HTTP_STATUSES.INTERNAL_ERROR)
     }
   }
 }
