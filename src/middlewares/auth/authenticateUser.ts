@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import { env } from 'process'
 
 export const authenticateUser = (req: any, res: any, next: any) => {
-  const token = req.cookies.JWT
+  const token = req.header.cookie.JWT
 
   if (token === null) return res.status(401)
 
