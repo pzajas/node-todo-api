@@ -55,7 +55,7 @@ export const AuthController = {
           httpOnly: JWT_COOKIE_HTTP_ONLY
         })
 
-        res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, token: accessToken, refreshToken })
+        res.status(HTTP_CODES.OK).json({ username: user.username, ...HTTP_STATUSES.OK, token: accessToken, refreshToken })
       } else {
         return res.status(HTTP_CODES.UNAUTHORIZED).json({ ...HTTP_STATUSES.UNAUTHORIZED })
       }
@@ -94,11 +94,14 @@ export const AuthController = {
   },
 
   logout: async (req: Request, res: Response) => {
-    const token = req.cookies.JWT
+    const responseToken = req.headers.cookie
+    let token = ''
 
-    if (!token) return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
+    if (!responseToken) return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
 
     try {
+      responseToken.includes('JWT=') ? token = responseToken.slice(4) : token = responseToken
+
       const valid = jwt.verify(token, env.TOKEN_SECRET)
 
       if (valid) res.clearCookie('JWT').json(HTTP_STATUSES.OK)
