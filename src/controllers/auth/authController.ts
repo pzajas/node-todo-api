@@ -89,7 +89,7 @@ export const AuthController = {
         return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
       }
     } catch (error) {
-      return res.status(HTTP_CODES.INTERNAL_ERROR).json(HTTP_STATUSES.INTERNAL_ERROR)
+      return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
     }
   },
 
@@ -106,7 +106,7 @@ export const AuthController = {
 
       if (valid) res.clearCookie('JWT').json(HTTP_STATUSES.OK)
     } catch (error) {
-      return res.status(HTTP_CODES.INTERNAL_ERROR).json(HTTP_STATUSES.INTERNAL_ERROR)
+      return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
     }
   }
 }

@@ -39,3 +39,8 @@ export const HTTP_URLS = {
   REFRESH: 'http://localhost:3000/refresh',
   LOGOUT: 'http://localhost:3000/logout'
 }
+
+export const HTTP_TYPES = {
+  STRING: 'string',
+  NUMBER: 'number'
+}

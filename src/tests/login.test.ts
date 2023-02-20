@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import dotenv from 'dotenv'
 import { env } from 'process'
 
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../interfaces/Responses/HTTP'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_TYPES, HTTP_URLS } from '../interfaces/Responses/HTTP'
 
 dotenv.config()
 
@@ -24,13 +24,13 @@ describe('user logs in successfully', () => {
       }
     })
 
-    expect(res.data.username).a('string').eq(username)
+    expect(res.data.username).a(HTTP_TYPES.STRING).eq(username)
 
-    expect(res.data.token).a('string')
-    expect(res.data.refreshToken).a('string')
+    expect(res.data.token).a(HTTP_TYPES.STRING)
+    expect(res.data.refreshToken).a(HTTP_TYPES.STRING)
 
-    expect(res.data.message).eq('OK')
-    expect(res.data.status).eq(200)
+    expect(res.data.message).eq(HTTP_MESSAGES.OK)
+    expect(res.data.status).eq(HTTP_CODES.OK)
   })
 })
 
@@ -43,6 +43,7 @@ describe('user tries to log in providing invalid credentials', () => {
         username: invalidUsername,
         password: invalidPassword
       }
+
     }).catch(err => {
       const response = err.response.data
 
@@ -118,6 +119,7 @@ describe('user tries to log in providing an invalid password', () => {
         username,
         password: invalidPassword
       }
+
     }).catch(err => {
       const response = err.response.data
 
@@ -136,10 +138,11 @@ describe('user tries to log in providing an invalid password', () => {
         username,
         password: ''
       }
-    }).catch(err => {
-      if (password === '') {
-        const response = err.response.data
 
+    }).catch(err => {
+      const response = err.response.data
+
+      if (password === '') {
         expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
         expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
       }
@@ -153,6 +156,7 @@ describe('user tries to log in providing an invalid password', () => {
       data: {
         password
       }
+
     }).catch(err => {
       if (password === null) {
         const response = err.response.data
