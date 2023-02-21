@@ -25,6 +25,9 @@ describe('user refreshes the token successfully', () => {
       url: HTTP_URLS.REFRESH,
       data: {
         refreshToken
+      },
+      headers: {
+        Authorization: `Bearer ${refreshToken}`
       }
 
     })
