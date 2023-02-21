@@ -10,11 +10,8 @@ import { HTTP_CODES, HTTP_STATUSES } from '../../interfaces/Responses/HTTP'
 
 const prisma = new PrismaClient()
 
-const ACCESS_TOKEN_EXPIRATION_TIME = '30m'
+const ACCESS_TOKEN_EXPIRATION_TIME = '24h'
 const REFRESH_TOKEN_EXPIRATION_TIME = '30d'
-
-const JWT_COOKIE_MAX_AGE = 86400000
-const JWT_COOKIE_HTTP_ONLY = true
 
 export const AuthController = {
   register: async (req: Request, res: Response) => {
@@ -50,12 +47,7 @@ export const AuthController = {
         const accessToken = jwt.sign(user, env.TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME })
         const refreshToken = jwt.sign(user, env.REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME })
 
-        res.cookie('JWT', accessToken, {
-          maxAge: JWT_COOKIE_MAX_AGE,
-          httpOnly: JWT_COOKIE_HTTP_ONLY
-        })
-
-        res.status(HTTP_CODES.OK).json({ username: user.username, ...HTTP_STATUSES.OK, token: accessToken, refreshToken })
+        res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, token: accessToken, refreshToken })
       } else {
         return res.status(HTTP_CODES.UNAUTHORIZED).json({ ...HTTP_STATUSES.UNAUTHORIZED })
       }
@@ -79,11 +71,6 @@ export const AuthController = {
       if ((user !== null) && jwt.verify(refreshToken, env.REFRESH_SECRET)) {
         const accessToken = jwt.sign(user, env.TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME })
 
-        res.cookie('JWT', accessToken, {
-          maxAge: JWT_COOKIE_MAX_AGE,
-          httpOnly: JWT_COOKIE_HTTP_ONLY
-        })
-
         return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, token: accessToken })
       } else {
         return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
@@ -94,19 +81,6 @@ export const AuthController = {
   },
 
   logout: async (req: Request, res: Response) => {
-    const responseToken = req.headers.cookie
-    let token = ''
-
-    if (!responseToken) return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
-
-    try {
-      responseToken.includes('JWT=') ? token = responseToken.slice(4) : token = responseToken
-
-      const valid = jwt.verify(token, env.TOKEN_SECRET)
-
-      if (valid) res.clearCookie('JWT').json(HTTP_STATUSES.OK)
-    } catch (error) {
-      return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
-    }
+    return res.status(HTTP_CODES.OK).json(HTTP_STATUSES.OK)
   }
 }
