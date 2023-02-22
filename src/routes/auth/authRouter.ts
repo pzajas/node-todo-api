@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 
-import { AuthController } from '../../controllers/auth/authController'
+import { AuthController } from '../../controllers/auth/index'
 import { authenticate } from '../../middlewares/auth/authenticate'
 
 export const authRouter = express.Router()
