@@ -14,6 +14,9 @@ export const createRandomUser = (id: number): User => {
     email: randomMail,
     password: randomPass,
 
+    token: null,
+    refreshToken: null,
+
     todos: {
       create: [
         {

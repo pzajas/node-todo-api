@@ -11,8 +11,10 @@ model User {
   id       Int    @id @default(autoincrement())
   username String @unique
   email    String @unique
-
   password String
+
+  token        String? @unique
+  refreshToken String? @unique
 
   todos Todo[]
 

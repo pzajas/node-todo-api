@@ -29,6 +29,8 @@ export const UserController = {
         username: 'Admin.Admin',
         email: 'Admin@gmail.com',
         password: 'admin',
+        token: 'aaa',
+        refreshToken: 'aaa',
         todos: {}
       }
     })

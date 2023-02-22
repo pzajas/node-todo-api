@@ -5,6 +5,9 @@ export interface User {
   password: string
   email: string
 
+  token: string | null
+  refreshToken: string | null
+
   todos: {
     create: Todo[]
   }
