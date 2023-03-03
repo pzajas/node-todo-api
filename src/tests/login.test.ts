@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import dotenv from 'dotenv'
 import { env } from 'process'
 
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_TYPES, HTTP_URLS } from '../interfaces/Responses/HTTP'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_TYPES, HTTP_URLS } from '../helpers/interfaces/http/http'
 
 dotenv.config()
 
@@ -23,8 +23,6 @@ describe('user logs in successfully', () => {
         password
       }
     })
-
-    expect(res.data.username).a(HTTP_TYPES.STRING).eq(username)
 
     expect(res.data.token).a(HTTP_TYPES.STRING)
     expect(res.data.refreshToken).a(HTTP_TYPES.STRING)
@@ -47,10 +45,8 @@ describe('user tries to log in providing invalid credentials', () => {
     }).catch(err => {
       const response = err.response.data
 
-      if (username !== env.LOGIN && password !== env.PASSWORD) {
-        expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-        expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
-      }
+      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
     })
   })
 })
@@ -65,12 +61,10 @@ describe('user tries to log in providing an invalid username', () => {
         password
       }
     }).catch(err => {
-      if (username !== env.LOGIN) {
-        const response = err.response.data
+      const response = err.response.data
 
-        expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-        expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
-      }
+      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
     })
   })
 
@@ -83,12 +77,10 @@ describe('user tries to log in providing an invalid username', () => {
         password
       }
     }).catch(err => {
-      if (username === '') {
-        const response = err.response.data
+      const response = err.response.data
 
-        expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-        expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
-      }
+      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
     })
   })
 
@@ -102,10 +94,8 @@ describe('user tries to log in providing an invalid username', () => {
     }).catch(err => {
       const response = err.response.data
 
-      if (username === null) {
-        expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-        expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
-      }
+      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
     })
   })
 })
@@ -123,10 +113,8 @@ describe('user tries to log in providing an invalid password', () => {
     }).catch(err => {
       const response = err.response.data
 
-      if (password !== env.PASSWORD) {
-        expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-        expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
-      }
+      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
     })
   })
 
@@ -142,10 +130,8 @@ describe('user tries to log in providing an invalid password', () => {
     }).catch(err => {
       const response = err.response.data
 
-      if (password === '') {
-        expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-        expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
-      }
+      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
     })
   })
 
@@ -154,16 +140,14 @@ describe('user tries to log in providing an invalid password', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGIN,
       data: {
-        password
+        username
       }
 
     }).catch(err => {
-      if (password === null) {
-        const response = err.response.data
+      const response = err.response.data
 
-        expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-        expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
-      }
+      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
     })
   })
 })

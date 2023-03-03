@@ -6,6 +6,7 @@ declare global {
       PORT?: string
       LOGIN: string
       PASSWORD: string
+      EMAIL: string
       TOKEN_SECRET: string
       REFRESH_SECRET: string
     }

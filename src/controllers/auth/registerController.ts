@@ -1,26 +1,16 @@
 
-import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcryptjs'
 import { type Request, type Response } from 'express'
 
-// import jwt from 'jsonwebtoken'
-// import { env } from 'process'
-import { HTTP_CODES, HTTP_STATUSES } from '../../interfaces/Responses/HTTP'
+import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+import { createHashedPassword } from '../../services/passwordService/createHashedPassword'
+import { createUser } from '../../services/userService/createUser'
 
-const prisma = new PrismaClient()
-
-export const RegisterController = async (req: Request, res: Response): Promise <any> => {
+export const RegisterController = async (req: Request, res: Response): Promise <Response> => {
   const { username, email, password } = req.body
 
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const hashedPassword = await createHashedPassword(password)
 
-  const user = await prisma.user.create({
-    data: {
-      username,
-      email,
-      password: hashedPassword
-    }
-  })
+  const data = await createUser(username, email, hashedPassword)
 
-  return res.status(HTTP_CODES.CREATED).json({ ...HTTP_STATUSES.CREATED, user })
+  return res.status(HTTP_CODES.CREATED).json({ ...HTTP_STATUSES.CREATED, data })
 }
