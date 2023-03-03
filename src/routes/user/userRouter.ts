@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import express from 'express'
+// import express from 'express'
 
-import { UserController } from '../../controllers/user/userController'
+// import { UserController } from '../../controllers/user/userController'
 
-export const userRouter = express.Router()
+// export const userRouter = express.Router()
 
-userRouter.get('/', UserController.getUsers)
+// userRouter.get('/', UserController.getUsers)
 
-userRouter.post('/', UserController.postUser)
+// userRouter.post('/', UserController.postUser)
 
-userRouter.get('/:id', UserController.getUser)
+// userRouter.get('/:id', UserController.getUser)
 
-userRouter.patch('/:id', UserController.updateUser)
+// userRouter.patch('/:id', UserController.updateUser)
 
-userRouter.delete('/:id', UserController.deleteUser)
+// userRouter.delete('/:id', UserController.deleteUser)

@@ -9,16 +9,20 @@ datasource db {
 
 model User {
   id       Int    @id @default(autoincrement())
-  username String @unique
+  username String @unique @db.VarChar(8)
   email    String @unique
   password String
 
-  token        String? @unique
-  refreshToken String? @unique
+  todos  Todo[]
+  tokens Token[]
+}
 
-  todos Todo[]
-
-  @@unique([id])
+model Token {
+  id     Int    @id @default(autoincrement())
+  token  String @unique
+  type   Type
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model Todo {
@@ -26,8 +30,11 @@ model Todo {
   value  String
   status String
 
-  authorName User   @relation(fields: [author], references: [username])
-  author     String
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
 
-  @@unique([id])
+enum Type {
+  ACCESS_TOKEN
+  REFRESH_TOKEN
 }
