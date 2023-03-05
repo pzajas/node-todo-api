@@ -7,7 +7,7 @@ import { HTTP_CODES, HTTP_STATUSES } from '../../interfaces/http/http'
 
 export const authenticate = async (req: any, res: any, next: any) => {
   try {
-    const token = req.headers.cookie
+    const token = req.headers.cookie.split('token=')[1]
 
     const isValidToken = jwt.decode(token)
 

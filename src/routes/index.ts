@@ -1,12 +1,13 @@
 import { Router } from 'express'
 
-// import { authenticate } from '../middlewares/auth/authenticate'
 import { authRouter } from './auth/authRouter'
-// import { userRouter } from './user/userRouter'
+import { todoRouter } from './todo/todoRouter'
+import { userRouter } from './user/userRouter'
 
 const rootRouter = Router()
 
 rootRouter.use('/', authRouter)
-// rootRouter.use('/users', userRouter)
+rootRouter.use('/users', userRouter)
+rootRouter.use('/todos', todoRouter)
 
 export default rootRouter

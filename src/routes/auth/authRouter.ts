@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 
-import { AuthController } from '../../controllers/auth/index'
+import { AuthController } from '../../controllers/auth/xindex'
 import { catchAsyncErrors } from '../../helpers/errors/catchAsyncErrors'
 import { authenticate } from '../../helpers/middlewares/auth/authenticate'
 

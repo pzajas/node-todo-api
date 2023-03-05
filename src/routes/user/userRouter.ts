@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-// import express from 'express'
+import express from 'express'
 
-// import { UserController } from '../../controllers/user/userController'
+import { UserController } from '../../controllers/user/xindex'
+import { catchAsyncErrors } from '../../helpers/errors/catchAsyncErrors'
+import { authenticate } from '../../helpers/middlewares/auth/authenticate'
 
-// export const userRouter = express.Router()
+export const userRouter = express.Router()
 
-// userRouter.get('/', UserController.getUsers)
+userRouter.get('/', authenticate, catchAsyncErrors(UserController.getUsers))
 
-// userRouter.post('/', UserController.postUser)
+userRouter.get('/:id', authenticate, catchAsyncErrors(UserController.getUser))
 
-// userRouter.get('/:id', UserController.getUser)
+userRouter.patch('/:id', authenticate, catchAsyncErrors(UserController.updateUser))
 
-// userRouter.patch('/:id', UserController.updateUser)
-
-// userRouter.delete('/:id', UserController.deleteUser)
+userRouter.delete('/:id', authenticate, catchAsyncErrors(UserController.deleteUser))

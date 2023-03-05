@@ -3,28 +3,28 @@ import { expect } from 'chai'
 import dotenv from 'dotenv'
 import { env } from 'process'
 
-import { signIn } from '../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../helpers/interfaces/http/http'
+import { signIn } from '../../helpers/functions/authentication/signIn'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../helpers/interfaces/http/http'
 
 dotenv.config()
 
 const username = env.LOGIN
 const password = env.PASSWORD
 
-let refreshToken: string
+let token: string
 
-describe('user refreshes the token successfully', () => {
+describe('user logs out successfully', () => {
   beforeEach(async () => {
-    const response = await signIn(username, password)
-    refreshToken = response.refreshToken
+    const accessToken = await signIn(username, password)
+    token = accessToken.token
   })
 
-  it('should provide a new access token to a logged user', async () => {
+  it('should log out the user if a valid token is provided', async () => {
     const res = await axios({
       method: HTTP_METHODS.POST,
-      url: HTTP_URLS.REFRESH,
-      data: {
-        refreshToken
+      url: HTTP_URLS.LOGOUT,
+      headers: {
+        Cookie: token
       }
     })
     expect(res.data.message).eq(HTTP_MESSAGES.OK)
@@ -32,19 +32,17 @@ describe('user refreshes the token successfully', () => {
   })
 })
 
-describe('user tries to get a new token providing an invalid refresh token', () => {
+describe('user tries to log out providing an invalid access token', () => {
   beforeEach(async () => {
-    const response = await signIn(username, password)
-    refreshToken = response.refreshToken
+    const accessToken = await signIn(username, password)
+    token = accessToken.token
   })
 
-  it('should expect an error if an invalid refresh token is provided', async () => {
+  it('should expect an error if an invalid token is provided', async () => {
     await axios({
       method: HTTP_METHODS.POST,
-      url: HTTP_URLS.REFRESH,
-      data: {
-        refreshToken: 'invalid token'
-      }
+      url: HTTP_URLS.LOGOUT,
+      headers: { Cookie: 'invalid token' }
 
     }).catch(err => {
       const response = err.response.data
@@ -54,13 +52,11 @@ describe('user tries to get a new token providing an invalid refresh token', () 
     })
   })
 
-  it('should expect an error if an empty refresh token is provided', async () => {
+  it('should expect an error if an empty token is provided', async () => {
     await axios({
       method: HTTP_METHODS.POST,
-      url: HTTP_URLS.REFRESH,
-      data: {
-        refreshToken: ''
-      }
+      url: HTTP_URLS.LOGOUT,
+      headers: { Cookie: '' }
 
     }).catch(err => {
       const response = err.response.data
@@ -70,10 +66,10 @@ describe('user tries to get a new token providing an invalid refresh token', () 
     })
   })
 
-  it('should expect an error if no refresh token is provided', async () => {
+  it('should expect an error if no token is provided', async () => {
     await axios({
       method: HTTP_METHODS.POST,
-      url: HTTP_URLS.REFRESH
+      url: HTTP_URLS.LOGOUT
 
     }).catch(err => {
       const response = err.response.data
