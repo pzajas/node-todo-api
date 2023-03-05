@@ -1,18 +1,10 @@
-export interface IUser {
-  id: number
-  username: string
-  password: string
-  email: string
+import { type Response } from 'express'
 
-  todos?: {
-    create: Todo[]
-  }
-}
-
-export interface Todo {
-  value: string
-  status: string
-  author?: string
+export interface User extends Response {
+  id?: number
+  email?: string
+  username?: string
+  password?: string
 }
 
 export interface ITokens {

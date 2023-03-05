@@ -6,11 +6,9 @@ import { decodeTokens } from '../../services/tokenService/decodeTokens'
 import { deleteTokens } from '../../services/tokenService/deleteTokens'
 
 export const LogoutController = async (req: Request, res: Response): Promise<Response> => {
-  const headers = req.headers.cookie
+  const token = req.headers.cookie?.split('token=')[1]
 
-  if (headers) {
-    const token = headers.split('=')[1]
-
+  if (token) {
     const id = await decodeTokens(token)
 
     await deleteTokens(id)

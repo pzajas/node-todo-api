@@ -1,13 +1,13 @@
-
 import jwt from 'jsonwebtoken'
 
-export const decodeTokens = async (token: string): Promise<any> => {
+let userId: number
+
+export const decodeTokens = async (token: string): Promise<number> => {
   const decoded: any = jwt.decode(token)
 
-  if (decoded !== null) {
-    const id = decoded.id
-    console.log(decoded.id)
-
-    return id
+  if (decoded.id !== null) {
+    userId = decoded.id
   }
+
+  return userId
 }
