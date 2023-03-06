@@ -37,7 +37,10 @@ export const HTTP_URLS = {
   REGISTER: 'http://localhost:3000/register',
   LOGIN: 'http://localhost:3000/login',
   REFRESH: 'http://localhost:3000/refresh',
-  LOGOUT: 'http://localhost:3000/logout'
+  LOGOUT: 'http://localhost:3000/logout',
+
+  TODOS: 'http://localhost:3000/todos',
+  TODOS_ID: 'http://localhost:3000/todos/:id'
 }
 
 export const HTTP_TYPES = {

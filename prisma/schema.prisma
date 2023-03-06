@@ -27,14 +27,13 @@ model Token {
 
 model Todo {
   id        Int     @id @default(autoincrement())
-  value     String
+  value     String  @unique
   completed Boolean @default(false)
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId Int
 }
 
 enum Type {
-  ACCESS_TOKEN
   REFRESH_TOKEN
 }

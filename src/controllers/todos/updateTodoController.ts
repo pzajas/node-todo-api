@@ -1,9 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
+import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+
 const prisma = new PrismaClient()
 
-export const updateTodoController = async (req: Request, res: Response): Promise<any> => {
+export const updateTodoController = async (req: Request, res: Response): Promise<Response> => {
   const id = +req.params.id
   const value = req.body.value
 
@@ -16,5 +18,5 @@ export const updateTodoController = async (req: Request, res: Response): Promise
     }
   })
 
-  return res.json(todo)
+  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, todo })
 }
