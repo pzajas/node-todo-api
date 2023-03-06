@@ -10,7 +10,6 @@ export const authenticate = async (req: any, res: any, next: any) => {
     const token = req.headers.cookie.split('token=')[1]
 
     const isValidToken = jwt.decode(token)
-
     if (isValidToken) {
       await next()
     } else return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)

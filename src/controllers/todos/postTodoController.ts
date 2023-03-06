@@ -2,28 +2,21 @@
 import { PrismaClient } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
-import { decodeTokens } from '../../services/tokenService/decodeTokens'
+import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+import { userIdFromCookieToken } from '../../services/tokenService/getUserIdFromCookieToken'
 
 const prisma = new PrismaClient()
-
-// interface Todo extends Response {
-//   id?: number
-//   value?: string
-//   completed?: boolean
-//   userId?: number
-// }
 let id: number
 
 export const postTodoController = async (req: Request, res: Response): Promise<Response> => {
-  const headers = req.headers.cookie
+  const cookie = req.headers.cookie
   const value = req.body.value
 
-  if (headers !== null && headers !== undefined) {
-    const token = headers.split('token=')[1]
-    id = await decodeTokens(token)
+  if (cookie !== null && cookie !== undefined) {
+    id = await userIdFromCookieToken(cookie)
   }
 
-  await prisma.todo.create({
+  const newTodo = await prisma.todo.create({
     data: {
       value,
       completed: false,
@@ -33,7 +26,7 @@ export const postTodoController = async (req: Request, res: Response): Promise<R
         }
       }
     }
-
   })
-  return res.status(200).json('xxx')
+
+  return res.status(HTTP_CODES.CREATED).json({ ...HTTP_STATUSES.CREATED, newTodo })
 }

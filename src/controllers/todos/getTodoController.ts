@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
+import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+
 const prisma = new PrismaClient()
 
 interface Todo extends Response {
@@ -19,5 +21,6 @@ export const getTodoController = async (req: Request, res: Response): Promise<To
     }
   })
 
-  return res.json(todo)
+  if (todo !== null) return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, todo })
+  else throw new Error()
 }

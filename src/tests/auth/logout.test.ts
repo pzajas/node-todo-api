@@ -24,9 +24,10 @@ describe('user logs out successfully', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGOUT,
       headers: {
-        Cookie: token
+        Cookie: `token=${token}`
       }
     })
+
     expect(res.data.message).eq(HTTP_MESSAGES.OK)
     expect(res.data.status).eq(HTTP_CODES.OK)
   })
