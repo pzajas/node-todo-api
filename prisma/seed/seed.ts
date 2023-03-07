@@ -1,30 +1,56 @@
-// import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
+import { times } from 'lodash'
 
-// import { type User } from '../typescript/userTypes'
-// import { createUsers } from './data/createUsers'
+import { createRandomTodo } from './mock/mockTodo'
+import { createRandomToken } from './mock/mockToken'
+import { createRandomUser } from './mock/mockUser'
 
-// const prisma = new PrismaClient()
+const prisma = new PrismaClient()
 
-// const users = createUsers()
+const seedDatabase = async (): Promise<any> => {
+  const users = times(100, createRandomUser)
+  const todos = times(25, createRandomTodo)
+  const tokens = times(25, createRandomToken)
 
-// const seedDatabase = async (): Promise<void> => {
-//   await Promise.all(
-//     users.map(async (user: User) =>
-//       await prisma.user.upsert({
-//         where: { username: user.username },
-//         update: {},
-//         create: user
-//       })
-//     )
-//   )
-// }
+  users.map(async (user: any): Promise<any> =>
+    await prisma.user.createMany({
+      data: {
+        username: user.username,
+        password: user.password,
+        email: user.email
+      },
+      skipDuplicates: true
+    }))
 
-// seedDatabase()
-//   .then(async () => {
-//     await prisma.$disconnect()
-//   })
-//   .catch(async e => {
-//     console.error(e)
-//     await prisma.$disconnect()
-//     process.exit(1)
-//   })
+  setTimeout(() => {
+    todos.map(async (todo: any): Promise<any> =>
+      await prisma.todo.createMany({
+        data: {
+          value: todo.value,
+          completed: todo.completed,
+          userId: todo.userId
+        },
+        skipDuplicates: true
+      }))
+
+    tokens.map(async (token: any): Promise<any> =>
+      await prisma.token.createMany({
+        data: {
+          token: token.token,
+          type: token.type,
+          userId: token.userId
+        },
+        skipDuplicates: true
+      }))
+  }, 3000)
+}
+
+seedDatabase()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e: any) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })

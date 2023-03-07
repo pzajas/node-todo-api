@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id       Int    @id @default(autoincrement())
-  username String @unique @db.VarChar(8)
+  username String @unique
   email    String @unique
   password String
 
@@ -27,7 +27,7 @@ model Token {
 
 model Todo {
   id        Int     @id @default(autoincrement())
-  value     String  @unique
+  value     String
   completed Boolean @default(false)
 
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
