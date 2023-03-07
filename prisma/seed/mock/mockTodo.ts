@@ -1,17 +1,16 @@
 
+import { random } from 'lodash'
 import { names, uniqueNamesGenerator } from 'unique-names-generator'
 
-import { type Todo } from '../../typescript/todoTypes'
+export const createRandomValue = (): string => uniqueNamesGenerator({ dictionaries: [names] })
 
-const createRandomValue = (): string => uniqueNamesGenerator({ dictionaries: [names] })
+export const createRandomStatus = (): boolean => false
 
-const createRandomStatus = (): string => 'uncomplete'
-
-export const createRandomTodo = (id: number): Todo => {
+export const createRandomTodo = (): any => {
   const todo = {
-    id,
     value: createRandomValue(),
-    status: createRandomStatus()
+    completed: createRandomStatus(),
+    userId: random(1, 25)
   }
   return todo
 }
