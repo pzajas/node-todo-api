@@ -1,16 +1,14 @@
-
 import { random } from 'lodash'
-import { names, uniqueNamesGenerator } from 'unique-names-generator'
 
-export const createRandomValue = (): string => uniqueNamesGenerator({ dictionaries: [names] })
+import { type IMockTodo } from '../../interface/interfaces'
+import { createRandomStatus, createRandomText } from '../service/todoService'
 
-export const createRandomStatus = (): boolean => false
-
-export const createRandomTodo = (): any => {
+export const createRandomTodo = (): IMockTodo => {
   const todo = {
-    value: createRandomValue(),
+    value: createRandomText(),
     completed: createRandomStatus(),
     userId: random(1, 25)
   }
+
   return todo
 }

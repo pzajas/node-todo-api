@@ -1,6 +1,7 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Type } from '@prisma/client'
 import { times } from 'lodash'
 
+import { type IMockTodo, type IMockToken, type IMockUser } from '../interface/interfaces'
 import { createRandomTodo } from './mock/mockTodo'
 import { createRandomToken } from './mock/mockToken'
 import { createRandomUser } from './mock/mockUser'
@@ -12,7 +13,7 @@ const seedDatabase = async (): Promise<any> => {
   const todos = times(25, createRandomTodo)
   const tokens = times(25, createRandomToken)
 
-  users.map(async (user: any): Promise<any> =>
+  users.map(async (user: IMockUser) =>
     await prisma.user.createMany({
       data: {
         username: user.username,
@@ -23,7 +24,7 @@ const seedDatabase = async (): Promise<any> => {
     }))
 
   setTimeout(() => {
-    todos.map(async (todo: any): Promise<any> =>
+    todos.map(async (todo: IMockTodo) =>
       await prisma.todo.createMany({
         data: {
           value: todo.value,
@@ -33,11 +34,11 @@ const seedDatabase = async (): Promise<any> => {
         skipDuplicates: true
       }))
 
-    tokens.map(async (token: any): Promise<any> =>
+    tokens.map(async (token: IMockToken) =>
       await prisma.token.createMany({
         data: {
           token: token.token,
-          type: token.type,
+          type: Type.REFRESH_TOKEN,
           userId: token.userId
         },
         skipDuplicates: true
