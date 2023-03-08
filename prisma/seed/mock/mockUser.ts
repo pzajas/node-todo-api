@@ -1,15 +1,16 @@
-import { createRandomName, createRandomPassword } from '../service/userService'
+import { type IMockUser } from '../../interface/interfaces'
+import { createRandomEmail, createRandomName, createRandomPassword } from '../service/userService'
 
-export const createRandomUser = (): any => {
+export const createRandomUser = (): IMockUser => {
   const randomName = createRandomName()
   const randomPass = createRandomPassword()
-
-  const randomMail = `${randomName}@gmail.com`
+  const randomMail = createRandomEmail()
 
   const user = {
     username: randomName,
     email: randomMail,
     password: randomPass
   }
+
   return user
 }

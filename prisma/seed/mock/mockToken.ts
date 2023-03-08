@@ -1,15 +1,14 @@
-
 import { random } from 'lodash'
 
-import { createRandomName } from '../service/userService'
+import { type IMockToken } from '../../interface/interfaces'
+import { createRandomName, createRandomTokenType } from '../service/tokenService'
 
-export const createRandomStatus = (): boolean => false
-
-export const createRandomToken = (): any => {
+export const createRandomToken = (): IMockToken => {
   const token = {
     token: createRandomName(),
-    type: 'REFRESH_TOKEN',
+    type: createRandomTokenType(),
     userId: random(1, 25)
   }
+
   return token
 }
