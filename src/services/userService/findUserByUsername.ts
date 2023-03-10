@@ -9,7 +9,7 @@ export const findUserByUsername = async (username: string): Promise<User> => {
       username
     }
   })
+  if (user === null || user.username !== username) throw new Error()
 
-  if (user !== null && user.username === username) return user
-  else throw new Error()
+  return user
 }

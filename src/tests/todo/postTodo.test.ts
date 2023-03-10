@@ -30,9 +30,6 @@ describe('user gets the list of todos successfully', () => {
         value: 'kotek mały'
       }
     })
-
-    console.log({ DATA: res.data })
-
     expect(res.data.message).eq(HTTP_MESSAGES.CREATED)
     expect(res.data.status).eq(HTTP_CODES.CREATED)
   })

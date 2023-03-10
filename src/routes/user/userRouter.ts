@@ -2,15 +2,15 @@
 import express from 'express'
 
 import { UserController } from '../../controllers/user/xindex'
-import { catchAsyncErrors } from '../../helpers/errors/catchAsyncErrors'
-import { authenticate } from '../../helpers/middlewares/auth/authenticate'
+import { tryCatch } from '../../helpers/errors/tryCatch'
+import { authenticate } from '../../helpers/middlewares/authenticate'
 
 export const userRouter = express.Router()
 
-userRouter.get('/', authenticate, catchAsyncErrors(UserController.getUsers))
+userRouter.get('/', authenticate, tryCatch(UserController.getUsers))
 
-userRouter.get('/:id', authenticate, catchAsyncErrors(UserController.getUser))
+userRouter.get('/:id', authenticate, tryCatch(UserController.getUser))
 
-userRouter.patch('/:id', authenticate, catchAsyncErrors(UserController.updateUser))
+userRouter.patch('/:id', authenticate, tryCatch(UserController.updateUser))
 
-userRouter.delete('/:id', authenticate, catchAsyncErrors(UserController.deleteUser))
+userRouter.delete('/:id', authenticate, tryCatch(UserController.deleteUser))

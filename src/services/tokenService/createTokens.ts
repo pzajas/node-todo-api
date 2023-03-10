@@ -20,3 +20,10 @@ export const createTokens = async (id: number): Promise<ITokens> => {
 
   return ({ token, refreshToken })
 }
+
+export const createNewToken = async (id: number): Promise<string> => {
+
+  token = jwt.sign({ id }, env.TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME })
+
+  return token
+}

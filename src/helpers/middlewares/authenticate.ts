@@ -3,7 +3,7 @@
 import jwt from 'jsonwebtoken'
 
 // import { env } from 'process'
-import { HTTP_CODES, HTTP_STATUSES } from '../../interfaces/http/http'
+import { HTTP_CODES, HTTP_ERRORS } from '../interfaces/http/http'
 
 export const authenticate = async (req: any, res: any, next: any) => {
   try {
@@ -12,8 +12,8 @@ export const authenticate = async (req: any, res: any, next: any) => {
     const isValidToken = jwt.decode(token)
     if (isValidToken) {
       await next()
-    } else return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
+    }
   } catch {
-    return res.status(HTTP_CODES.UNAUTHORIZED).json(HTTP_STATUSES.UNAUTHORIZED)
+    return res.status(HTTP_CODES.UNAUTHORIZED).json({ status: HTTP_CODES.UNAUTHORIZED, message: HTTP_ERRORS.LOGOUT })
   }
 }

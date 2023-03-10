@@ -9,7 +9,7 @@ export const findUserByRefreshToken = async (token: string): Promise<number> => 
     }
   })
 
-  if (data !== null) return data.userId
+  if (data === null) throw new Error()
 
-  else throw new Error()
+  return data.userId
 }

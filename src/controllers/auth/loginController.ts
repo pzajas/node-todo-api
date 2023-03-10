@@ -11,6 +11,7 @@ export const LoginController = async (req: Request, res: Response): Promise<Resp
   const { username, password }: Pick<User, 'username' | 'password'> = req.body
 
   const user: User = await findUserByUsername(username)
+
   const isValidPassword: boolean = await validateUserPassword(password, user)
 
   if (!user.username && !isValidPassword) throw new Error()
