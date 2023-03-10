@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 
 import { type Request, type Response } from 'express'
 
-import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES } from '../../helpers/interfaces/http/http'
 import { createHashedPassword } from '../../services/passwordService/createHashedPassword'
 import { createUser } from '../../services/userService/createUser'
 
@@ -10,7 +11,9 @@ export const RegisterController = async (req: Request, res: Response): Promise <
 
   const hashedPassword = await createHashedPassword(password)
 
-  const data = await createUser(username, email, hashedPassword)
+  const isUserCreated = await createUser(username, email, hashedPassword)
 
-  return res.status(HTTP_CODES.CREATED).json({ ...HTTP_STATUSES.CREATED, data })
+  if (!isUserCreated) { return res.status(HTTP_CODES.BAD_REQUEST) }
+
+  return res.status(HTTP_CODES.CREATED).json({ status: HTTP_CODES.CREATED, message: HTTP_MESSAGES.CREATED })
 }

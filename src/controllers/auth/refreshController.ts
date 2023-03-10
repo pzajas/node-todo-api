@@ -2,11 +2,10 @@
 import { type Request, type Response } from 'express'
 
 import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
-import { assignTokens } from '../../services/tokenService/assignTokens'
-import { deleteTokens } from '../../services/tokenService/deleteTokens'
+import { createNewToken } from '../../services/tokenService/createTokens'
 import { findUserByRefreshToken } from '../../services/userService/findUserByRefresh'
 
-let refreshedToken: string
+let newAccessToken: string
 
 export const RefreshController = async (req: Request, res: Response): Promise<Response> => {
   const queryRefreshToken = req.body.refreshToken
@@ -14,11 +13,10 @@ export const RefreshController = async (req: Request, res: Response): Promise<Re
   const userId: number = await findUserByRefreshToken(queryRefreshToken)
 
   if (userId) {
-    await deleteTokens(userId)
-    const { token } = await assignTokens(userId)
+    const token = await createNewToken(userId)
 
-    refreshedToken = token
-    res.cookie('token', token, { httpOnly: true })
+    newAccessToken = token
+    res.cookie('token', newAccessToken, { httpOnly: true })
   }
-  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, refreshedToken })
+  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, newAccessToken })
 }

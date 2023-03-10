@@ -27,9 +27,6 @@ describe('user gets the list of todos successfully', () => {
         Cookie: `token=${token}`
       }
     })
-
-    console.log(res.data)
-
     expect(res.data.message).eq(HTTP_MESSAGES.OK)
     expect(res.data.status).eq(HTTP_CODES.OK)
   })
