@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import dotenv from 'dotenv'
 import { env } from 'process'
 
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_TYPES, HTTP_URLS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS, HTTP_TYPES, HTTP_URLS } from '../../helpers/interfaces/http/http'
 
 dotenv.config()
 
@@ -45,8 +45,8 @@ describe('user tries to log in providing invalid credentials', () => {
     }).catch(err => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(HTTP_ERRORS.LOGIN)
     })
   })
 })
@@ -63,8 +63,8 @@ describe('user tries to log in providing an invalid username', () => {
     }).catch(err => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(HTTP_ERRORS.LOGIN)
     })
   })
 
@@ -79,8 +79,8 @@ describe('user tries to log in providing an invalid username', () => {
     }).catch(err => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(HTTP_ERRORS.USERNAME_IS_REQUIRED)
     })
   })
 
@@ -94,8 +94,8 @@ describe('user tries to log in providing an invalid username', () => {
     }).catch(err => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(HTTP_ERRORS.USERNAME_IS_REQUIRED)
     })
   })
 })
@@ -113,8 +113,8 @@ describe('user tries to log in providing an invalid password', () => {
     }).catch(err => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(HTTP_ERRORS.LOGIN)
     })
   })
 
@@ -130,8 +130,8 @@ describe('user tries to log in providing an invalid password', () => {
     }).catch(err => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
     })
   })
 
@@ -146,8 +146,8 @@ describe('user tries to log in providing an invalid password', () => {
     }).catch(err => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
     })
   })
 })

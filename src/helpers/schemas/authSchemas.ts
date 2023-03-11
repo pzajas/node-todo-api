@@ -9,8 +9,8 @@ export const registerSchema = object({
 })
 
 export const loginSchema = object({
-  username: string().required(HTTP_ERRORS.USERNAME_IS_REQUIRED),
-  password: string().required(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
+  username: string().trim().required(HTTP_ERRORS.USERNAME_IS_REQUIRED),
+  password: string().trim().required(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
 })
 
 export const refreshSchema = object({
