@@ -1,24 +1,16 @@
 import { object, string } from 'yup'
 
-const usernameMinLengthError = 'Property username must be at least 5 characters'
-const passwordMinLengthError = 'Property password must be at least 5 characters'
-
-const usernameMaxLengthError = 'Property username must be at most 12 characters'
-const passwordMaxLengthError = 'Property password must be at most 12 characters'
-
-// const refreshLengthError = 'Property refreshToken must be at exactly 137 characters'
-
-const emailValidationError = 'Property email must be a valid email'
+import { HTTP_ERRORS } from '../interfaces/http/http'
 
 export const registerSchema = object({
-  username: string().min(5, usernameMinLengthError).max(12, usernameMaxLengthError).required(),
-  password: string().min(5, passwordMinLengthError).max(12, passwordMaxLengthError).required(),
-  email: string().email(emailValidationError).required()
+  username: string().trim().min(5, HTTP_ERRORS.USERNAME_MIN_LENGTH).max(20, HTTP_ERRORS.USERNAME_MAX_LENGTH).required(HTTP_ERRORS.USERNAME_IS_REQUIRED),
+  password: string().trim().min(5, HTTP_ERRORS.PASSWORD_MIN_LENGTH).max(20, HTTP_ERRORS.PASSWORD_MAX_LENGTH).required(HTTP_ERRORS.PASSWORD_IS_REQUIRED),
+  email: string().trim().min(5, HTTP_ERRORS.EMAIL_MIN_LENGTH).max(20, HTTP_ERRORS.EMAIL_MAX_LENGTH).email(HTTP_ERRORS.EMAIL_IS_VALID).required(HTTP_ERRORS.EMAIL_IS_REQUIRED)
 })
 
 export const loginSchema = object({
-  username: string().required(),
-  password: string().required()
+  username: string().required(HTTP_ERRORS.USERNAME_IS_REQUIRED),
+  password: string().required(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
 })
 
 export const refreshSchema = object({
