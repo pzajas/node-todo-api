@@ -4,11 +4,13 @@ import express from 'express'
 import { TodosController } from '../../controllers/todos/xindex'
 import { tryCatch } from '../../helpers/errors/tryCatch'
 import { authenticate } from '../../helpers/middlewares/authenticate'
+import { validate } from '../../helpers/middlewares/validate'
+import { postTodoSchema, todoSchema } from '../../helpers/schemas/todoSchemas'
 
 export const todoRouter = express.Router()
 
-todoRouter.get('/', tryCatch(TodosController.getTodos))
-todoRouter.get('/:id', authenticate, tryCatch(TodosController.getTodo))
-todoRouter.post('/', authenticate, tryCatch(TodosController.postTodo))
-todoRouter.delete('/:id', authenticate, tryCatch(TodosController.deleteTodo))
-todoRouter.patch('/:id', authenticate, tryCatch(TodosController.updateTodo))
+todoRouter.get('/', authenticate, tryCatch(TodosController.getTodos))
+todoRouter.get('/:id', authenticate, validate(todoSchema), tryCatch(TodosController.getTodo))
+todoRouter.post('/', authenticate, validate(postTodoSchema), tryCatch(TodosController.postTodo))
+todoRouter.delete('/:id', authenticate, validate(todoSchema), tryCatch(TodosController.deleteTodo))
+todoRouter.patch('/:id', authenticate, validate(todoSchema), tryCatch(TodosController.updateTodo))

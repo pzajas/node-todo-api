@@ -10,7 +10,7 @@ dotenv.config()
 
 const username = env.LOGIN
 const password = env.PASSWORD
-const email = env.EMAILs
+const email = env.EMAIL
 
 const lengthyUsername = 'thisUsernameIsTooLongForTheDatabase'
 const lengthyPassword = 'thisPasswordIsTooLongForTheDatabase'
@@ -65,7 +65,6 @@ describe('user tries to register providing an invalid username', () => {
       }
     }).catch(err => {
       const response = err.response.data
-      console.log(response)
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
       expect(response.message).eq(HTTP_ERRORS.USERNAME_MAX_LENGTH)

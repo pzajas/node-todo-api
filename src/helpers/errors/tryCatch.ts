@@ -8,8 +8,8 @@ let errorMessage: string
 
 export const tryCatch = (func: any): any => {
   return async function (req: Request, res: Response, next: NextFunction): Promise<any> {
-    try {
 
+    try {
       switch (req.originalUrl) {
         case '/register':
           errorMessage = HTTP_ERRORS.REGISTER
@@ -27,12 +27,21 @@ export const tryCatch = (func: any): any => {
           errorMessage = HTTP_ERRORS.LOGOUT
           errorStatus = HTTP_CODES.UNAUTHORIZED
           break
+        case '/todos':
+          errorMessage = HTTP_ERRORS.USER_IS_UNAUTHORIZED
+          errorStatus = HTTP_CODES.UNAUTHORIZED
+          break
+        case `/todos${req.path}`:
+          errorMessage = HTTP_ERRORS.TODO_IS_NULL
+          errorStatus = HTTP_CODES.BAD_REQUEST
+          break
       }
 
       await func(req, res, next)
       next()
     } catch (error: any) {
-      return res.status(HTTP_CODES.BAD_REQUEST).json({ status: errorStatus, message: errorMessage })
+
+      return res.status(errorStatus).json({ status: errorStatus, message: errorMessage })
     }
   }
 }

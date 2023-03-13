@@ -7,11 +7,10 @@ import { deleteTokens } from '../../services/tokenService/deleteTokens'
 export const LogoutController = async (req: Request, res: Response): Promise<Response> => {
   const token = req.headers.cookie?.split('token=')[1]
 
-  if (token !== null && token !== undefined) {
-    const id = await decodeTokens(token)
-    await deleteTokens(id)
-    res.clearCookie('token')
-  }
+  if (token === null || token === undefined) throw new Error()
+
+  const id = await decodeTokens(token)
+  await deleteTokens(id)
 
   return res.status(HTTP_CODES.OK).json({ status: HTTP_CODES.OK, message: HTTP_MESSAGES.OK })
 }
