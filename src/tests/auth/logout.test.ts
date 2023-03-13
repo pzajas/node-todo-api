@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import { env } from 'process'
 
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../helpers/interfaces/http/http'
 
 dotenv.config()
 
@@ -43,13 +43,15 @@ describe('user tries to log out providing an invalid access token', () => {
     await axios({
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGOUT,
-      headers: { Cookie: 'invalid token' }
+      headers: {
+        Cookie: 'invalid token'
+      }
 
     }).catch(err => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_ERRORS.LOGOUT)
     })
   })
 
@@ -57,13 +59,15 @@ describe('user tries to log out providing an invalid access token', () => {
     await axios({
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGOUT,
-      headers: { Cookie: '' }
+      headers: {
+        Cookie: ''
+      }
 
     }).catch(err => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_ERRORS.LOGOUT)
     })
   })
 
@@ -76,7 +80,7 @@ describe('user tries to log out providing an invalid access token', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(response.message).eq(HTTP_MESSAGES.UNAUTHORIZED)
+      expect(response.message).eq(HTTP_ERRORS.LOGOUT)
     })
   })
 })

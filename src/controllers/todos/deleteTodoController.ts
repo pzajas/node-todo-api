@@ -1,11 +1,12 @@
 import { PrismaClient } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
-import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES } from '../../helpers/interfaces/http/http'
 
 const prisma = new PrismaClient()
 
 export const deleteTodoController = async (req: Request, res: Response): Promise<any> => {
+  if (req.params.id === null) throw new Error()
   const id = +req.params.id
 
   const todo = await prisma.todo.delete({
@@ -13,5 +14,5 @@ export const deleteTodoController = async (req: Request, res: Response): Promise
       id
     }
   })
-  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, todo })
+  return res.status(HTTP_CODES.OK).json({ status: HTTP_CODES.OK, message: HTTP_MESSAGES.DELETED, todo })
 }

@@ -1,18 +1,30 @@
 import { type NextFunction, type Request, type Response } from 'express'
 
-import { HTTP_CODES } from '../interfaces/http/http'
+import { HTTP_CODES, HTTP_ERRORS } from '../interfaces/http/http'
+
+// let errorStatus: number
+let errorMessage: string
 
 export const validate = (schema: any) =>
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
-      await schema.validate((req.body), { abortEarly: false })
+      await schema.validate(({
+        body: req.body,
+        query: req.query,
+        params: req.params
+      }), { abortEarly: false })
 
       next()
     } catch (error: any) {
       const firstError = error.errors[0]
+      const todoId = error.value.params.id
 
-      if (error !== null) {
-        return res.status(HTTP_CODES.BAD_REQUEST).json({ status: 400, message: firstError })
+      if (todoId !== undefined && isNaN(todoId)) {
+        errorMessage = HTTP_ERRORS.PARAM_MUST_BE_A_NUMBER
+      } else {
+        errorMessage = firstError
       }
+
+      return res.status(HTTP_CODES.BAD_REQUEST).json({ status: HTTP_CODES.BAD_REQUEST, message: errorMessage })
     }
   }
