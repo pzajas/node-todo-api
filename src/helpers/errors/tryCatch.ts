@@ -33,14 +33,13 @@ export const tryCatch = (func: any): any => {
           break
         case `/todos${req.path}`:
           errorMessage = HTTP_ERRORS.TODO_IS_NULL
-          errorStatus = HTTP_CODES.BAD_REQUEST
+          errorStatus = HTTP_CODES.NOT_FOUND
           break
       }
 
       await func(req, res, next)
       next()
     } catch (error: any) {
-
       return res.status(errorStatus).json({ status: errorStatus, message: errorMessage })
     }
   }

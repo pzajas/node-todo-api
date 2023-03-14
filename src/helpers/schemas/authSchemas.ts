@@ -6,14 +6,14 @@ export const registerSchema = object({
   body: object({
     username: string().trim().min(5, HTTP_ERRORS.USERNAME_MIN_LENGTH).max(20, HTTP_ERRORS.USERNAME_MAX_LENGTH).required(HTTP_ERRORS.USERNAME_IS_REQUIRED),
     password: string().trim().min(5, HTTP_ERRORS.PASSWORD_MIN_LENGTH).max(20, HTTP_ERRORS.PASSWORD_MAX_LENGTH).required(HTTP_ERRORS.PASSWORD_IS_REQUIRED),
-    email: string().trim().min(5, HTTP_ERRORS.EMAIL_MIN_LENGTH).max(20, HTTP_ERRORS.EMAIL_MAX_LENGTH).email(HTTP_ERRORS.EMAIL_IS_VALID).required(HTTP_ERRORS.EMAIL_IS_REQUIRED)
+    email: string().trim().min(5, HTTP_ERRORS.EMAIL_MIN_LENGTH).max(20, HTTP_ERRORS.EMAIL_MAX_LENGTH).email(HTTP_ERRORS.IS_EMAIL).required(HTTP_ERRORS.EMAIL_IS_REQUIRED)
   })
 })
 
 export const loginSchema = object({
   body: object({
-    username: string().trim().required(HTTP_ERRORS.USERNAME_IS_REQUIRED),
-    password: string().trim().required(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
+    username: string().typeError(HTTP_ERRORS.IS_STRING).trim().required(HTTP_ERRORS.USERNAME_IS_REQUIRED),
+    password: string().trim(HTTP_ERRORS.IS_STRING).required(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
   })
 })
 

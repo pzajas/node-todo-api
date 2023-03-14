@@ -15,7 +15,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     const isValidToken = jwt.decode(token as string)
     if (!isValidToken) throw new Error()
     next()
-  } catch {
+  } catch (err) {
     switch (req.originalUrl) {
       case '/register':
         errorMessage = HTTP_ERRORS.REGISTER

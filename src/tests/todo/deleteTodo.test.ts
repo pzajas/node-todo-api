@@ -5,7 +5,7 @@ import { env } from 'process'
 
 import { createTestTodo } from '../../helpers/functions/authentication/createTodo'
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../helpers/interfaces/http/http'
 
 dotenv.config()
 
@@ -25,10 +25,10 @@ describe('user deletes the todo successfully', () => {
     id = await createTestTodo(token)
   })
 
-  it('should provide the user a single todo', async () => {
+  it('should delete a single todo', async () => {
     const res = await axios({
       method: HTTP_METHODS.DELETE,
-      url: `http://localhost:3000/todos/${id}`,
+      url: `${HTTP_URLS.TODOS}/${id}`,
       headers: {
         Cookie: `token=${token}`
       }
@@ -48,7 +48,7 @@ describe('user tries to delete a single todo providing an invalid access token',
   it('should expect an error when an invalid token is provided', async () => {
     await axios({
       method: HTTP_METHODS.DELETE,
-      url: `http://localhost:3000/todos/${id}`,
+      url: `${HTTP_URLS.TODOS}/${id}`,
       headers: {
         Cookie: `token=${invalidToken}`
       }

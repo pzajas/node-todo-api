@@ -20,7 +20,7 @@ export const validate = (schema: any) =>
       const todoId = error.value.params.id
 
       if (todoId !== undefined && isNaN(todoId)) {
-        errorMessage = HTTP_ERRORS.PARAM_MUST_BE_A_NUMBER
+        errorMessage = HTTP_ERRORS.IS_NUMBER
       } else {
         errorMessage = firstError
       }
