@@ -85,7 +85,7 @@ describe('user tries to view a single todo providing an invalid parameter', () =
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(res.message).eq(HTTP_ERRORS.PARAM_MUST_BE_A_NUMBER)
+      expect(res.message).eq(HTTP_ERRORS.IS_NUMBER)
     })
   })
 })

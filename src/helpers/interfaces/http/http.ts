@@ -45,17 +45,17 @@ export const HTTP_ERRORS = {
   EMAIL_MAX_LENGTH: 'Property email must be at most 20 characters.',
   EMAIL_IS_REQUIRED: 'Property email is a required field.',
 
-  REFRESH_MIN_LENGTH: 'Property refreshToken cannot be an empty string.',
-  REFRESH_MAX_LENGTH: 'Property refreshToken must be at most 20 characters.',
-  REFRESH_IS_REQUIRED: 'Property refreshToken is a required field.',
-
   TODO_MIN_LENGTH: 'Property value must be at least 5 characters.',
   TODO_MAX_LENGTH: 'Property value must be at most 50 characters.',
   TODO_IS_REQUIRED: 'Property value is a required field.',
 
-  TODO_TYPE_STRING: 'Property value should be a string.',
+  REFRESH_MIN_LENGTH: 'Property refreshToken cannot be an empty string.',
+  REFRESH_MAX_LENGTH: 'Property refreshToken must be at most 20 characters.',
+  REFRESH_IS_REQUIRED: 'Property refreshToken is a required field.',
 
-  EMAIL_IS_VALID: 'Property email must be a valid email',
+  IS_NUMBER: 'Property :id should be a number.',
+  IS_STRING: 'Property value should be a string.',
+  IS_EMAIL: 'Property email must be a valid email',
 
   // TODOS
 
@@ -65,7 +65,6 @@ export const HTTP_ERRORS = {
   // ID
 
   PARAM_MUST_BE_A_NUMBER: 'Parameter :id must be a number.'
-
 }
 
 export const HTTP_STATUSES = {
