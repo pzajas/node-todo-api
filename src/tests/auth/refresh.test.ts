@@ -4,7 +4,8 @@ import dotenv from 'dotenv'
 import { env } from 'process'
 
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
 
@@ -50,7 +51,7 @@ describe('user tries to get a new token providing an invalid refresh token', () 
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.REFRESH)
+      expect(response.message).eq(VALIDATION_ERRORS.REFRESH)
     })
   })
 
@@ -66,7 +67,7 @@ describe('user tries to get a new token providing an invalid refresh token', () 
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.REFRESH_MIN_LENGTH)
+      expect(response.message).eq(VALIDATION_ERRORS.REFRESH_MIN_LENGTH)
     })
   })
 
@@ -79,7 +80,7 @@ describe('user tries to get a new token providing an invalid refresh token', () 
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.REFRESH_IS_REQUIRED)
+      expect(response.message).eq(VALIDATION_ERRORS.REFRESH_IS_REQUIRED)
     })
   })
 })

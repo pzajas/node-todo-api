@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
-import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_STATUSES } from '../../libs/http'
 import { decodeTokens } from '../../services/tokenService/decodeTokens'
 
 const prisma = new PrismaClient()

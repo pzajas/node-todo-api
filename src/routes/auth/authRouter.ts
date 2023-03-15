@@ -2,10 +2,10 @@
 import express from 'express'
 
 import { AuthController } from '../../controllers/auth/xindex'
-import { tryCatch } from '../../helpers/errors/tryCatch'
-import { authenticate } from '../../helpers/middlewares/authenticate'
-import { validate } from '../../helpers/middlewares/validate'
-import { loginSchema, refreshSchema, registerSchema } from '../../helpers/schemas/authSchemas'
+import { authenticate } from '../../middlewares/authenticate'
+import { tryCatch } from '../../middlewares/tryCatch'
+import { validate } from '../../middlewares/validate'
+import { loginSchema, refreshSchema, registerSchema } from '../../validation/schemas/authSchemas'
 
 export const authRouter = express.Router()
 

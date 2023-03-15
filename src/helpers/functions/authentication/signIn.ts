@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { HTTP_METHODS, HTTP_URLS } from '../../interfaces/http/http'
+import { HTTP_METHODS, HTTP_URLS } from '../../../libs/http'
 
 interface IResponse {
   token: string

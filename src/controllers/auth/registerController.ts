@@ -2,7 +2,7 @@
 
 import { type Request, type Response } from 'express'
 
-import { HTTP_CODES, HTTP_MESSAGES } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES } from '../../libs/http'
 import { createHashedPassword } from '../../services/passwordService/createHashedPassword'
 import { createUser } from '../../services/userService/createUser'
 

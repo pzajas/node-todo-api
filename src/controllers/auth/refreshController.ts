@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { type Request, type Response } from 'express'
 
-import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_STATUSES } from '../../libs/http'
 import { createNewToken } from '../../services/tokenService/createTokens'
 import { findUserByRefreshToken } from '../../services/userService/findUserByRefresh'
 

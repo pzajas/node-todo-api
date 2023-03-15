@@ -2,7 +2,7 @@
 import { type User } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
-import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_STATUSES } from '../../libs/http'
 import { validateUserPassword } from '../../services/passwordService/validateUserPassword'
 import { assignTokens } from '../../services/tokenService/assignTokens'
 import { findUserByUsername } from '../../services/userService/findUserByUsername'

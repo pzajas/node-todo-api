@@ -1,6 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 
-import { HTTP_CODES, HTTP_ERRORS } from '../interfaces/http/http'
+import { HTTP_CODES } from '../libs/http'
+import { VALIDATION_ERRORS } from '../validation/messages/validation'
 
 // let errorStatus: number
 let errorMessage: string
@@ -20,7 +21,7 @@ export const validate = (schema: any) =>
       const todoId = error.value.params.id
 
       if (todoId !== undefined && isNaN(todoId)) {
-        errorMessage = HTTP_ERRORS.IS_NUMBER
+        errorMessage = VALIDATION_ERRORS.IS_NUMBER
       } else {
         errorMessage = firstError
       }

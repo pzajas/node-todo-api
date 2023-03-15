@@ -5,7 +5,8 @@ import { env } from 'process'
 
 import { createTestTodo } from '../../helpers/functions/authentication/createTodo'
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS } from '../../libs/http'
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
 
@@ -62,7 +63,7 @@ describe('user tries to view a single todo providing an invalid access token', (
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(res.message).eq(HTTP_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
     })
   })
 })
@@ -85,7 +86,7 @@ describe('user tries to view a single todo providing an invalid parameter', () =
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(res.message).eq(HTTP_ERRORS.IS_NUMBER)
+      expect(res.message).eq(VALIDATION_ERRORS.IS_NUMBER)
     })
   })
 })
