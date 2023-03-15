@@ -2,7 +2,7 @@
 import { PrismaClient } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
-import { HTTP_CODES, HTTP_STATUSES } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_STATUSES } from '../../libs/http'
 import { userIdFromCookieToken } from '../../services/tokenService/getUserIdFromCookieToken'
 
 const prisma = new PrismaClient()

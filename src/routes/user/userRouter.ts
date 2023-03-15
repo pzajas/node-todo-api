@@ -2,8 +2,8 @@
 import express from 'express'
 
 import { UserController } from '../../controllers/user/xindex'
-import { tryCatch } from '../../helpers/errors/tryCatch'
-import { authenticate } from '../../helpers/middlewares/authenticate'
+import { tryCatch } from '../../middlewares/tryCatch'
+import { authenticate } from '../../middlewares/authenticate'
 
 export const userRouter = express.Router()
 

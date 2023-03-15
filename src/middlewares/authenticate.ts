@@ -3,7 +3,8 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import jwt from 'jsonwebtoken'
 
-import { HTTP_CODES, HTTP_ERRORS } from '../interfaces/http/http'
+import { HTTP_CODES } from '../libs/http'
+import { VALIDATION_ERRORS } from '../validation/messages/validation'
 
 let errorStatus: number
 let errorMessage: string
@@ -18,27 +19,27 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
   } catch (err) {
     switch (req.originalUrl) {
       case '/register':
-        errorMessage = HTTP_ERRORS.REGISTER
+        errorMessage = VALIDATION_ERRORS.REGISTER
         errorStatus = HTTP_CODES.BAD_REQUEST
         break
       case '/login':
-        errorMessage = HTTP_ERRORS.LOGIN
+        errorMessage = VALIDATION_ERRORS.LOGIN
         errorStatus = HTTP_CODES.BAD_REQUEST
         break
       case '/refresh':
-        errorMessage = HTTP_ERRORS.REFRESH
+        errorMessage = VALIDATION_ERRORS.REFRESH
         errorStatus = HTTP_CODES.BAD_REQUEST
         break
       case '/logout':
-        errorMessage = HTTP_ERRORS.LOGOUT
+        errorMessage = VALIDATION_ERRORS.LOGOUT
         errorStatus = HTTP_CODES.UNAUTHORIZED
         break
       case '/todos':
-        errorMessage = HTTP_ERRORS.USER_IS_UNAUTHORIZED
+        errorMessage = VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
         errorStatus = HTTP_CODES.UNAUTHORIZED
         break
       case `/todos${req.path}`:
-        errorMessage = HTTP_ERRORS.USER_IS_UNAUTHORIZED
+        errorMessage = VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
         errorStatus = HTTP_CODES.UNAUTHORIZED
         break
     }

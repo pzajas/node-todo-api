@@ -2,10 +2,10 @@
 import express from 'express'
 
 import { TodosController } from '../../controllers/todos/xindex'
-import { tryCatch } from '../../helpers/errors/tryCatch'
-import { authenticate } from '../../helpers/middlewares/authenticate'
-import { validate } from '../../helpers/middlewares/validate'
-import { patchTodoSchema, postTodoSchema, todoSchema } from '../../helpers/schemas/todoSchemas'
+import { authenticate } from '../../middlewares/authenticate'
+import { tryCatch } from '../../middlewares/tryCatch'
+import { validate } from '../../middlewares/validate'
+import { patchTodoSchema, postTodoSchema, todoSchema } from '../../validation/schemas/todoSchemas'
 
 export const todoRouter = express.Router()
 

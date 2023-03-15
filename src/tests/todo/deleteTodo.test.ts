@@ -5,7 +5,8 @@ import { env } from 'process'
 
 import { createTestTodo } from '../../helpers/functions/authentication/createTodo'
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
 
@@ -56,7 +57,7 @@ describe('user tries to delete a single todo providing an invalid access token',
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(res.message).eq(HTTP_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
     })
   })
 })

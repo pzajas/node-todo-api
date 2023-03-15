@@ -4,7 +4,8 @@ import dotenv from 'dotenv'
 import { env } from 'process'
 
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
 
@@ -48,7 +49,7 @@ describe('user tries to get the list of todos when an invalid token is provided'
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(res.message).eq(HTTP_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
     })
   })
 })

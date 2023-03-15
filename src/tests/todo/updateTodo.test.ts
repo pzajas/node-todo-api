@@ -5,7 +5,8 @@ import { env } from 'process'
 
 import { createTestTodo } from '../../helpers/functions/authentication/createTodo'
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS } from '../../libs/http'
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
 
@@ -62,7 +63,7 @@ describe('user tries to update a todo providing an invalid token', () => {
     }).catch(err => {
       const res = err.response.data
 
-      expect(res.message).eq(HTTP_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -80,7 +81,7 @@ describe('user tries to update a todo providing an invalid token', () => {
     }).catch(err => {
       const res = err.response.data
 
-      expect(res.message).eq(HTTP_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -95,7 +96,7 @@ describe('user tries to update a todo providing an invalid token', () => {
     }).catch(err => {
       const res = err.response.data
 
-      expect(res.message).eq(HTTP_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -122,7 +123,7 @@ describe('user tries to update a todo providing an invalid value', () => {
     }).catch(err => {
       const res = err.response.data
 
-      expect(res.message).eq(HTTP_ERRORS.TODO_MIN_LENGTH)
+      expect(res.message).eq(VALIDATION_ERRORS.TODO_MIN_LENGTH)
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })
@@ -141,7 +142,7 @@ describe('user tries to update a todo providing an invalid value', () => {
     }).catch(err => {
       const res = err.response.data
 
-      expect(res.message).eq(HTTP_ERRORS.TODO_MAX_LENGTH)
+      expect(res.message).eq(VALIDATION_ERRORS.TODO_MAX_LENGTH)
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })
@@ -157,7 +158,7 @@ describe('user tries to update a todo providing an invalid value', () => {
     }).catch(err => {
       const res = err.response.data
 
-      expect(res.message).eq(HTTP_ERRORS.TODO_IS_REQUIRED)
+      expect(res.message).eq(VALIDATION_ERRORS.TODO_IS_REQUIRED)
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })

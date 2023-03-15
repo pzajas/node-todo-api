@@ -3,7 +3,8 @@ import { expect } from 'chai'
 import dotenv from 'dotenv'
 import { env } from 'process'
 
-import { HTTP_CODES, HTTP_ERRORS, HTTP_MESSAGES, HTTP_METHODS, HTTP_TYPES, HTTP_URLS } from '../../helpers/interfaces/http/http'
+import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_TYPES, HTTP_URLS } from '../../libs/http'
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
 
@@ -46,7 +47,7 @@ describe('user tries to log in providing invalid credentials', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.LOGIN)
+      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
     })
   })
 })
@@ -64,7 +65,7 @@ describe('user tries to log in providing an invalid username', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.LOGIN)
+      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
     })
   })
 
@@ -80,7 +81,7 @@ describe('user tries to log in providing an invalid username', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.USERNAME_IS_REQUIRED)
+      expect(response.message).eq(VALIDATION_ERRORS.USERNAME_IS_REQUIRED)
     })
   })
 
@@ -95,7 +96,7 @@ describe('user tries to log in providing an invalid username', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.USERNAME_IS_REQUIRED)
+      expect(response.message).eq(VALIDATION_ERRORS.USERNAME_IS_REQUIRED)
     })
   })
 })
@@ -114,7 +115,7 @@ describe('user tries to log in providing an invalid password', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.LOGIN)
+      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
     })
   })
 
@@ -131,7 +132,7 @@ describe('user tries to log in providing an invalid password', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
+      expect(response.message).eq(VALIDATION_ERRORS.PASSWORD_IS_REQUIRED)
     })
   })
 
@@ -147,7 +148,7 @@ describe('user tries to log in providing an invalid password', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(HTTP_ERRORS.PASSWORD_IS_REQUIRED)
+      expect(response.message).eq(VALIDATION_ERRORS.PASSWORD_IS_REQUIRED)
     })
   })
 })
