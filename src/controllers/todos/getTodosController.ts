@@ -15,7 +15,10 @@ interface Todo extends Response {
 
 let id: number
 
-export const getTodosController = async (req: Request, res: Response): Promise<Todo> => {
+export const getTodosController = async (
+  req: Request,
+  res: Response
+): Promise<Todo> => {
   const headers = req.headers.cookie
 
   if (headers !== null && headers !== undefined) {
@@ -25,9 +28,11 @@ export const getTodosController = async (req: Request, res: Response): Promise<T
 
   const todos = await prisma.todo.findMany({
     where: {
-      userId: id
-    }
+      userId: id,
+    },
   })
 
-  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, todos })
+  return res
+    .status(HTTP_CODES.OK)
+    .json({ ...HTTP_STATUSES.OK, todos })
 }

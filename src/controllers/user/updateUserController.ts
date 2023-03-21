@@ -6,18 +6,23 @@ import type { User } from '../../helpers/interfaces/user/user'
 
 const prisma = new PrismaClient()
 
-export const updateUserController = async (req: Request, res: Response): Promise<User> => {
+export const updateUserController = async (
+  req: Request,
+  res: Response
+): Promise<User> => {
   const id = +req.params.id
   const username = req.body.username
 
   const user = await prisma.user.update({
     where: {
-      id
+      id,
     },
     data: {
-      username
-    }
+      username,
+    },
   })
 
-  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, user })
+  return res
+    .status(HTTP_CODES.OK)
+    .json({ ...HTTP_STATUSES.OK, user })
 }

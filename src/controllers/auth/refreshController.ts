@@ -7,10 +7,15 @@ import { findUserByRefreshToken } from '../../services/userService/findUserByRef
 
 let newAccessToken: string
 
-export const RefreshController = async (req: Request, res: Response): Promise<Response> => {
+export const RefreshController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const queryRefreshToken = req.body.refreshToken
 
-  const userId: number = await findUserByRefreshToken(queryRefreshToken)
+  const userId: number = await findUserByRefreshToken(
+    queryRefreshToken
+  )
 
   if (userId) {
     const token = await createNewToken(userId)
@@ -18,5 +23,7 @@ export const RefreshController = async (req: Request, res: Response): Promise<Re
     newAccessToken = token
     res.cookie('token', newAccessToken, { httpOnly: true })
   }
-  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, newAccessToken })
+  return res
+    .status(HTTP_CODES.OK)
+    .json({ ...HTTP_STATUSES.OK, newAccessToken })
 }

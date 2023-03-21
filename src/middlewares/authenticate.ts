@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type NextFunction, type Request, type Response } from 'express'
+import {
+  type NextFunction,
+  type Request,
+  type Response,
+} from 'express'
 import jwt from 'jsonwebtoken'
 
 import { HTTP_CODES } from '../libs/http'
@@ -9,7 +13,11 @@ import { VALIDATION_ERRORS } from '../validation/messages/validation'
 let errorStatus: number
 let errorMessage: string
 
-export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const token = req.headers.cookie?.split('token=')[1]
 
@@ -35,14 +43,18 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
         errorStatus = HTTP_CODES.UNAUTHORIZED
         break
       case '/todos':
-        errorMessage = VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+        errorMessage =
+          VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
         errorStatus = HTTP_CODES.UNAUTHORIZED
         break
       case `/todos${req.path}`:
-        errorMessage = VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+        errorMessage =
+          VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
         errorStatus = HTTP_CODES.UNAUTHORIZED
         break
     }
-    return res.status(errorStatus).json({ status: errorStatus, message: errorMessage })
+    return res
+      .status(errorStatus)
+      .json({ status: errorStatus, message: errorMessage })
   }
 }

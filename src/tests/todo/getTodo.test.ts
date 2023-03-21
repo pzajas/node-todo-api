@@ -5,7 +5,11 @@ import { env } from 'process'
 
 import { createTestTodo } from '../../helpers/functions/authentication/createTodo'
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -31,8 +35,8 @@ describe('user gets the single todo successfully', () => {
       method: HTTP_METHODS.GET,
       url: `http://localhost:3000/todos/${id}`,
       headers: {
-        Cookie: `token=${token}`
-      }
+        Cookie: `token=${token}`,
+      },
     })
     const todo = res.data.todo
 
@@ -57,13 +61,15 @@ describe('user tries to view a single todo providing an invalid access token', (
       method: HTTP_METHODS.GET,
       url: `http://localhost:3000/todos/${id}`,
       headers: {
-        Cookie: `token=${invalidToken}`
-      }
-    }).catch(err => {
+        Cookie: `token=${invalidToken}`,
+      },
+    }).catch((err) => {
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
     })
   })
 })
@@ -80,13 +86,15 @@ describe('user tries to view a single todo providing an invalid parameter', () =
       method: HTTP_METHODS.GET,
       url: `http://localhost:3000/todos/${invalidParameter}`,
       headers: {
-        Cookie: `token=${token}`
-      }
-    }).catch(err => {
+        Cookie: `token=${token}`,
+      },
+    }).catch((err) => {
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(res.message).eq(VALIDATION_ERRORS.IS_NUMBER)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.SHOULD_BE_NUMBER
+      )
     })
   })
 })

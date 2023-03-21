@@ -1,4 +1,3 @@
-
 import { PrismaClient } from '@prisma/client'
 import { type Request, type Response } from 'express'
 
@@ -8,7 +7,10 @@ import { userIdFromCookieToken } from '../../services/tokenService/getUserIdFrom
 const prisma = new PrismaClient()
 let id: number
 
-export const postTodoController = async (req: Request, res: Response): Promise<Response> => {
+export const postTodoController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const cookie = req.headers.cookie
   const value = req.body.value
 
@@ -22,11 +24,13 @@ export const postTodoController = async (req: Request, res: Response): Promise<R
       completed: false,
       user: {
         connect: {
-          id
-        }
-      }
-    }
+          id,
+        },
+      },
+    },
   })
 
-  return res.status(HTTP_CODES.CREATED).json({ ...HTTP_STATUSES.CREATED, newTodo })
+  return res
+    .status(HTTP_CODES.CREATED)
+    .json({ ...HTTP_STATUSES.CREATED, newTodo })
 }

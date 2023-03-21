@@ -5,7 +5,11 @@ import { env } from 'process'
 
 import { createTestTodo } from '../../helpers/functions/authentication/createTodo'
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -32,11 +36,11 @@ describe('user updates the todo successfully', () => {
       method: HTTP_METHODS.PATCH,
       url: `http://localhost:3000/todos/${id}`,
       headers: {
-        Cookie: `token=${token}`
+        Cookie: `token=${token}`,
       },
       data: {
-        value: 'Updated Value'
-      }
+        value: 'Updated Value',
+      },
     })
     expect(res.data.message).eq(HTTP_MESSAGES.OK)
     expect(res.data.status).eq(HTTP_CODES.OK)
@@ -55,15 +59,17 @@ describe('user tries to update a todo providing an invalid token', () => {
       method: HTTP_METHODS.PATCH,
       url: `http://localhost:3000/todos/${id}`,
       headers: {
-        Cookie: `token=${invalidToken}`
+        Cookie: `token=${invalidToken}`,
       },
       data: {
-        value: 'Sweet kitty'
-      }
-    }).catch(err => {
+        value: 'Sweet kitty',
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -73,15 +79,17 @@ describe('user tries to update a todo providing an invalid token', () => {
       method: HTTP_METHODS.PATCH,
       url: `http://localhost:3000/todos/${id}`,
       headers: {
-        Cookie: ''
+        Cookie: '',
       },
       data: {
-        value: 'Sweet kitty'
-      }
-    }).catch(err => {
+        value: 'Sweet kitty',
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -91,12 +99,14 @@ describe('user tries to update a todo providing an invalid token', () => {
       method: HTTP_METHODS.PATCH,
       url: `http://localhost:3000/todos/${id}`,
       data: {
-        value: 'Sweet kitty'
-      }
-    }).catch(err => {
+        value: 'Sweet kitty',
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -115,15 +125,17 @@ describe('user tries to update a todo providing an invalid value', () => {
       method: HTTP_METHODS.PATCH,
       url: `http://localhost:3000/todos/${id}`,
       headers: {
-        Cookie: `token=${token}`
+        Cookie: `token=${token}`,
       },
       data: {
-        value: ''
-      }
-    }).catch(err => {
+        value: '',
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.TODO_MIN_LENGTH)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.TODO_MIN_LENGTH
+      )
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })
@@ -134,15 +146,17 @@ describe('user tries to update a todo providing an invalid value', () => {
       url: `http://localhost:3000/todos/${id}`,
 
       headers: {
-        Cookie: `token=${token}`
+        Cookie: `token=${token}`,
       },
       data: {
-        value: longString
-      }
-    }).catch(err => {
+        value: longString,
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.TODO_MAX_LENGTH)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.TODO_MAX_LENGTH
+      )
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })
@@ -153,12 +167,14 @@ describe('user tries to update a todo providing an invalid value', () => {
       url: `http://localhost:3000/todos/${id}`,
 
       headers: {
-        Cookie: `token=${token}`
-      }
-    }).catch(err => {
+        Cookie: `token=${token}`,
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.TODO_IS_REQUIRED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.TODO_IS_REQUIRED
+      )
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })

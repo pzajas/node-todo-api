@@ -7,5 +7,5 @@ export const UserController = {
   getUsers,
   getUser,
   deleteUser,
-  updateUser
+  updateUser,
 }

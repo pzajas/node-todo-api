@@ -4,7 +4,12 @@ import dotenv from 'dotenv'
 import { env } from 'process'
 
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+  HTTP_URLS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -25,8 +30,8 @@ describe('user logs out successfully', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGOUT,
       headers: {
-        Cookie: `token=${token}`
-      }
+        Cookie: `token=${token}`,
+      },
     })
 
     expect(res.data.message).eq(HTTP_MESSAGES.OK)
@@ -45,10 +50,9 @@ describe('user tries to log out providing an invalid access token', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGOUT,
       headers: {
-        Cookie: 'invalid token'
-      }
-
-    }).catch(err => {
+        Cookie: 'invalid token',
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
@@ -61,10 +65,9 @@ describe('user tries to log out providing an invalid access token', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGOUT,
       headers: {
-        Cookie: ''
-      }
-
-    }).catch(err => {
+        Cookie: '',
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)
@@ -75,9 +78,8 @@ describe('user tries to log out providing an invalid access token', () => {
   it('should expect an error if no token is provided', async () => {
     await axios({
       method: HTTP_METHODS.POST,
-      url: HTTP_URLS.LOGOUT
-
-    }).catch(err => {
+      url: HTTP_URLS.LOGOUT,
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.UNAUTHORIZED)

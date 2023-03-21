@@ -4,7 +4,12 @@ import dotenv from 'dotenv'
 import { env } from 'process'
 
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+  HTTP_URLS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -28,11 +33,11 @@ describe('user creates a todo successfully', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.TODOS,
       headers: {
-        Cookie: `token=${token}`
+        Cookie: `token=${token}`,
       },
       data: {
-        value: 'kotek mały'
-      }
+        value: 'kotek mały',
+      },
     })
     expect(res.data.message).eq(HTTP_MESSAGES.CREATED)
     expect(res.data.status).eq(HTTP_CODES.CREATED)
@@ -45,15 +50,17 @@ describe('user tries to create a todo providing an invalid token', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.TODOS,
       headers: {
-        Cookie: `token=${invalidToken}`
+        Cookie: `token=${invalidToken}`,
       },
       data: {
-        value: 'Sweet kitty'
-      }
-    }).catch(err => {
+        value: 'Sweet kitty',
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -63,15 +70,17 @@ describe('user tries to create a todo providing an invalid token', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.TODOS,
       headers: {
-        Cookie: ''
+        Cookie: '',
       },
       data: {
-        value: 'Sweet kitty'
-      }
-    }).catch(err => {
+        value: 'Sweet kitty',
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -81,12 +90,14 @@ describe('user tries to create a todo providing an invalid token', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.TODOS,
       data: {
-        value: 'Sweet kitty'
-      }
-    }).catch(err => {
+        value: 'Sweet kitty',
+      },
+    }).catch((err) => {
       const res = err.response.data
 
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
     })
   })
@@ -103,14 +114,16 @@ describe('user tries to create a todo providing an invalid value', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.TODOS,
       headers: {
-        Cookie: `token=${token}`
+        Cookie: `token=${token}`,
       },
       data: {
-        value: ''
-      }
-    }).catch(err => {
+        value: '',
+      },
+    }).catch((err) => {
       const res = err.response.data
-      expect(res.message).eq(VALIDATION_ERRORS.TODO_MIN_LENGTH)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.TODO_MIN_LENGTH
+      )
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })
@@ -120,14 +133,16 @@ describe('user tries to create a todo providing an invalid value', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.TODOS,
       headers: {
-        Cookie: `token=${token}`
+        Cookie: `token=${token}`,
       },
       data: {
-        value: longString
-      }
-    }).catch(err => {
+        value: longString,
+      },
+    }).catch((err) => {
       const res = err.response.data
-      expect(res.message).eq(VALIDATION_ERRORS.TODO_MAX_LENGTH)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.TODO_MAX_LENGTH
+      )
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })
@@ -137,11 +152,13 @@ describe('user tries to create a todo providing an invalid value', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.TODOS,
       headers: {
-        Cookie: `token=${token}`
-      }
-    }).catch(err => {
+        Cookie: `token=${token}`,
+      },
+    }).catch((err) => {
       const res = err.response.data
-      expect(res.message).eq(VALIDATION_ERRORS.TODO_IS_REQUIRED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.TODO_IS_REQUIRED
+      )
       expect(res.status).eq(HTTP_CODES.BAD_REQUEST)
     })
   })
