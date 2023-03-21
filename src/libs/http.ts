@@ -3,7 +3,7 @@ export const HTTP_METHODS = {
   POST: 'post',
   PUT: 'put',
   PATCH: 'patch',
-  DELETE: 'delete'
+  DELETE: 'delete',
 }
 
 export const HTTP_CODES = {
@@ -13,28 +13,57 @@ export const HTTP_CODES = {
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
   NOT_FOUND: 404,
-  INTERNAL_ERROR: 500
+  INTERNAL_ERROR: 500,
 }
 
 export const HTTP_MESSAGES = {
   OK: 'The user has successfully performed an action',
-  CREATED: 'The record was successfully created and added to the database',
-  DELETED: 'The record was successfully deleted and removed from the database',
+  CREATED:
+    'The record was successfully created and added to the database',
+  DELETED:
+    'The record was successfully deleted and removed from the database',
   BAD_REQUEST: 'bad request',
   UNAUTHORIZED: 'unauthorized',
   FORBIDDEN: 'forbidden',
   NOT_FOUND: 'not found',
-  INTERNAL_ERROR: 'internal server error'
+  INTERNAL_ERROR: 'internal server error',
+
+  LOGIN: 'You have logged in successfully.',
+
+  TOKEN_MUST_BE_VALID: 'You have to provide a valid token.',
+}
+
+export const HTTP_ERRORS = {
+  USER_WAS_NOT_FOUND:
+    'You have provided a wrong username or password.',
 }
 
 export const HTTP_STATUSES = {
   OK: { status: HTTP_CODES.OK, message: HTTP_MESSAGES.OK },
-  CREATED: { status: HTTP_CODES.CREATED, message: HTTP_MESSAGES.CREATED },
-  BAD_REQUEST: { status: HTTP_CODES.BAD_REQUEST, message: HTTP_MESSAGES.BAD_REQUEST },
-  UNAUTHORIZED: { status: HTTP_CODES.UNAUTHORIZED, message: HTTP_MESSAGES.UNAUTHORIZED },
-  FORBIDDEN: { status: HTTP_CODES.FORBIDDEN, message: HTTP_MESSAGES.FORBIDDEN },
-  NOT_FOUND: { status: HTTP_CODES.NOT_FOUND, message: HTTP_MESSAGES.NOT_FOUND },
-  INTERNAL_ERROR: { status: HTTP_CODES.INTERNAL_ERROR, message: HTTP_MESSAGES.INTERNAL_ERROR }
+  CREATED: {
+    status: HTTP_CODES.CREATED,
+    message: HTTP_MESSAGES.CREATED,
+  },
+  BAD_REQUEST: {
+    status: HTTP_CODES.BAD_REQUEST,
+    message: HTTP_MESSAGES.BAD_REQUEST,
+  },
+  UNAUTHORIZED: {
+    status: HTTP_CODES.UNAUTHORIZED,
+    message: HTTP_MESSAGES.UNAUTHORIZED,
+  },
+  FORBIDDEN: {
+    status: HTTP_CODES.FORBIDDEN,
+    message: HTTP_MESSAGES.FORBIDDEN,
+  },
+  NOT_FOUND: {
+    status: HTTP_CODES.NOT_FOUND,
+    message: HTTP_MESSAGES.NOT_FOUND,
+  },
+  INTERNAL_ERROR: {
+    status: HTTP_CODES.INTERNAL_ERROR,
+    message: HTTP_MESSAGES.INTERNAL_ERROR,
+  },
 }
 
 export const HTTP_URLS = {
@@ -46,10 +75,15 @@ export const HTTP_URLS = {
   TODOS: 'http://localhost:3000/todos',
   TODOS_ID: 'http://localhost:3000/todos/:id',
 
-  USERS: 'http://localhost:3000/users'
+  USERS: 'http://localhost:3000/users',
 }
 
 export const HTTP_TYPES = {
   STRING: 'string',
-  NUMBER: 'number'
+  NUMBER: 'number',
+}
+
+export const TOKEN_TYPES = {
+  ACCESS_TOKEN: 'ACCESS TOKEN',
+  REFRESH_TOKEN: 'REFRESH_TOKEN',
 }

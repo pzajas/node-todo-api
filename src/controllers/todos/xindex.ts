@@ -9,5 +9,5 @@ export const TodosController = {
   getTodo,
   postTodo,
   deleteTodo,
-  updateTodo
+  updateTodo,
 }

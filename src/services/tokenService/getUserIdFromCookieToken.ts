@@ -2,7 +2,9 @@ import { decodeTokens } from './decodeTokens'
 
 let id: number
 
-export const userIdFromCookieToken = async (cookie: string): Promise<number> => {
+export const userIdFromCookieToken = async (
+  cookie: string
+): Promise<number> => {
   if (!cookie.includes('token=')) {
     id = await decodeTokens(cookie)
   } else {

@@ -4,7 +4,12 @@ import dotenv from 'dotenv'
 import { env } from 'process'
 
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+  HTTP_URLS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -25,8 +30,8 @@ describe('user refreshes the token successfully', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.REFRESH,
       data: {
-        refreshToken
-      }
+        refreshToken,
+      },
     })
     expect(res.data.message).eq(HTTP_MESSAGES.OK)
     expect(res.data.status).eq(HTTP_CODES.OK)
@@ -44,10 +49,9 @@ describe('user tries to get a new token providing an invalid refresh token', () 
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.REFRESH,
       data: {
-        refreshToken: 'invalid token'
-      }
-
-    }).catch(err => {
+        refreshToken: 'invalid token',
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
@@ -60,27 +64,29 @@ describe('user tries to get a new token providing an invalid refresh token', () 
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.REFRESH,
       data: {
-        refreshToken: ''
-      }
-
-    }).catch(err => {
+        refreshToken: '',
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.REFRESH_MIN_LENGTH)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.REFRESH_MIN_LENGTH
+      )
     })
   })
 
   it('should expect an error if no refresh token is provided', async () => {
     await axios({
       method: HTTP_METHODS.POST,
-      url: HTTP_URLS.REFRESH
-
-    }).catch(err => {
+      url: HTTP_URLS.REFRESH,
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.REFRESH_IS_REQUIRED)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.REFRESH_IS_REQUIRED
+      )
     })
   })
 })

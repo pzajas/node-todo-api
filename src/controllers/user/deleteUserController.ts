@@ -6,13 +6,18 @@ import type { User } from '../../helpers/interfaces/user/user'
 
 const prisma = new PrismaClient()
 
-export const deleteUserController = async (req: Request, res: Response): Promise<User> => {
+export const deleteUserController = async (
+  req: Request,
+  res: Response
+): Promise<User> => {
   const id = +req.params.id
 
   await prisma.user.delete({
     where: {
-      id
-    }
+      id,
+    },
   })
-  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK })
+  return res
+    .status(HTTP_CODES.OK)
+    .json({ ...HTTP_STATUSES.OK })
 }

@@ -7,7 +7,11 @@
     "start": "nodemon ./dist/src/server.js",
     "lint": "eslint --fix src/**",
     "migrate": "npx prisma migrate dev --name init",
-    "test": "jest --setupFiles dotenv/config"
+    "test": "jest --setupFiles dotenv/config",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "npx prettier src test --check",
+    "prettier:fix": "npm run prettier -- --write",
+    "format": "npm run prettier:fix && npm run lint:fix"
   },
   "prisma": {
     "seed": "ts-node prisma/seed/seed.ts"
@@ -28,6 +32,7 @@
     "chai": "4.3.7",
     "ejs": "3.1.8",
     "eslint": "8.33.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard-with-typescript": "33.0.0",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-n": "15.6.1",

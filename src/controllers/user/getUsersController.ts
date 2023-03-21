@@ -6,15 +6,20 @@ import type { User } from '../../helpers/interfaces/user/user'
 
 const prisma = new PrismaClient()
 
-export const getUsersController = async (req: Request, res: Response): Promise<User> => {
+export const getUsersController = async (
+  req: Request,
+  res: Response
+): Promise<User> => {
   const users = await prisma.user.findMany({
     orderBy: {
-      id: 'asc'
+      id: 'asc',
     },
     include: {
-      todos: true
-    }
+      todos: true,
+    },
   })
 
-  return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, users })
+  return res
+    .status(HTTP_CODES.OK)
+    .json({ ...HTTP_STATUSES.OK, users })
 }

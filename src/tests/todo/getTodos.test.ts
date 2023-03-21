@@ -4,7 +4,12 @@ import dotenv from 'dotenv'
 import { env } from 'process'
 
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+  HTTP_URLS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -27,8 +32,8 @@ describe('user gets the list of todos successfully', () => {
       method: HTTP_METHODS.GET,
       url: HTTP_URLS.TODOS,
       headers: {
-        Cookie: `token=${token}`
-      }
+        Cookie: `token=${token}`,
+      },
     })
     expect(res.data.todos).an('array').length.gte(0)
 
@@ -43,13 +48,15 @@ describe('user tries to get the list of todos when an invalid token is provided'
       method: HTTP_METHODS.GET,
       url: HTTP_URLS.TODOS,
       headers: {
-        Cookie: `token=${invalidToken}`
-      }
-    }).catch(err => {
+        Cookie: `token=${invalidToken}`,
+      },
+    }).catch((err) => {
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
     })
   })
 })

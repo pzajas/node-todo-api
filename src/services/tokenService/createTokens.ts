@@ -11,19 +11,27 @@ const REFRESH_TOKEN_EXPIRATION_TIME = '30d'
 let token: string
 let refreshToken: string
 
-export const createTokens = async (id: number): Promise<ITokens> => {
-
+export const createTokens = async (
+  id: number
+): Promise<ITokens> => {
   await deleteTokens(id)
 
-  token = jwt.sign({ id }, env.TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME })
-  refreshToken = jwt.sign({ id }, env.REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME })
+  token = jwt.sign({ id }, env.TOKEN_SECRET, {
+    expiresIn: ACCESS_TOKEN_EXPIRATION_TIME,
+  })
+  refreshToken = jwt.sign({ id }, env.REFRESH_SECRET, {
+    expiresIn: REFRESH_TOKEN_EXPIRATION_TIME,
+  })
 
-  return ({ token, refreshToken })
+  return { token, refreshToken }
 }
 
-export const createNewToken = async (id: number): Promise<string> => {
-
-  token = jwt.sign({ id }, env.TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME })
+export const createNewToken = async (
+  id: number
+): Promise<string> => {
+  token = jwt.sign({ id }, env.TOKEN_SECRET, {
+    expiresIn: ACCESS_TOKEN_EXPIRATION_TIME,
+  })
 
   return token
 }

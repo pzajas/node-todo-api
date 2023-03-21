@@ -7,18 +7,21 @@ interface IResponse {
   refreshToken: string
 }
 
-export const signIn = async (username: string, password: string): Promise<IResponse> => {
+export const signIn = async (
+  username: string,
+  password: string
+): Promise<IResponse> => {
   const response = await axios({
     method: HTTP_METHODS.POST,
     url: HTTP_URLS.LOGIN,
     data: {
       username,
-      password
-    }
+      password,
+    },
   })
 
   return {
     token: response.data.token,
-    refreshToken: response.data.refreshToken
+    refreshToken: response.data.refreshToken,
   }
 }

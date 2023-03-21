@@ -3,7 +3,14 @@ import { expect } from 'chai'
 import dotenv from 'dotenv'
 import { env } from 'process'
 
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_TYPES, HTTP_URLS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_ERRORS,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+  HTTP_TYPES,
+  HTTP_URLS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -21,15 +28,15 @@ describe('user logs in successfully', () => {
       url: HTTP_URLS.LOGIN,
       data: {
         username,
-        password
-      }
+        password,
+      },
     })
 
     expect(res.data.token).a(HTTP_TYPES.STRING)
     expect(res.data.refreshToken).a(HTTP_TYPES.STRING)
 
-    expect(res.data.message).eq(HTTP_MESSAGES.OK)
     expect(res.data.status).eq(HTTP_CODES.OK)
+    expect(res.data.message).eq(HTTP_MESSAGES.LOGIN)
   })
 })
 
@@ -40,14 +47,15 @@ describe('user tries to log in providing invalid credentials', () => {
       url: HTTP_URLS.LOGIN,
       data: {
         username: invalidUsername,
-        password: invalidPassword
-      }
-
-    }).catch(err => {
+        password: invalidPassword,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
+      expect(response.status).eq(HTTP_CODES.NOT_FOUND)
+      expect(response.message).eq(
+        HTTP_ERRORS.USER_WAS_NOT_FOUND
+      )
     })
   })
 })
@@ -59,13 +67,15 @@ describe('user tries to log in providing an invalid username', () => {
       url: HTTP_URLS.LOGIN,
       data: {
         username: invalidUsername,
-        password
-      }
-    }).catch(err => {
+        password,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
+      expect(response.status).eq(HTTP_CODES.NOT_FOUND)
+      expect(response.message).eq(
+        HTTP_ERRORS.USER_WAS_NOT_FOUND
+      )
     })
   })
 
@@ -75,13 +85,33 @@ describe('user tries to log in providing an invalid username', () => {
       url: HTTP_URLS.LOGIN,
       data: {
         username: '',
-        password
-      }
-    }).catch(err => {
+        password,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.USERNAME_IS_REQUIRED)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.USERNAME_IS_REQUIRED
+      )
+    })
+  })
+
+  it('should expect an error when an untrimmed username is provided', async () => {
+    await axios({
+      method: HTTP_METHODS.POST,
+      url: HTTP_URLS.LOGIN,
+      data: {
+        username: '    ',
+        password,
+      },
+    }).catch((err) => {
+      const response = err.response.data
+
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.USERNAME_SHOULD_BE_TRIMMED
+      )
     })
   })
 
@@ -90,13 +120,15 @@ describe('user tries to log in providing an invalid username', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGIN,
       data: {
-        password
-      }
-    }).catch(err => {
+        password,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.USERNAME_IS_REQUIRED)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.USERNAME_IS_REQUIRED
+      )
     })
   })
 })
@@ -108,14 +140,15 @@ describe('user tries to log in providing an invalid password', () => {
       url: HTTP_URLS.LOGIN,
       data: {
         username,
-        password: invalidPassword
-      }
-
-    }).catch(err => {
+        password: invalidPassword,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
-      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
+      expect(response.status).eq(HTTP_CODES.NOT_FOUND)
+      expect(response.message).eq(
+        HTTP_ERRORS.USER_WAS_NOT_FOUND
+      )
     })
   })
 
@@ -125,14 +158,33 @@ describe('user tries to log in providing an invalid password', () => {
       url: HTTP_URLS.LOGIN,
       data: {
         username,
-        password: ''
-      }
-
-    }).catch(err => {
+        password: '',
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.PASSWORD_IS_REQUIRED)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.PASSWORD_IS_REQUIRED
+      )
+    })
+  })
+
+  it('should expect an error when an untrimmed password is provided', async () => {
+    await axios({
+      method: HTTP_METHODS.POST,
+      url: HTTP_URLS.LOGIN,
+      data: {
+        username,
+        password: '   ',
+      },
+    }).catch((err) => {
+      const response = err.response.data
+
+      expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.PASSWORD_SHOULD_BE_TRIMMED
+      )
     })
   })
 
@@ -141,14 +193,15 @@ describe('user tries to log in providing an invalid password', () => {
       method: HTTP_METHODS.POST,
       url: HTTP_URLS.LOGIN,
       data: {
-        username
-      }
-
-    }).catch(err => {
+        username,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.PASSWORD_IS_REQUIRED)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.PASSWORD_IS_REQUIRED
+      )
     })
   })
 })

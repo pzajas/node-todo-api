@@ -4,7 +4,12 @@ import dotenv from 'dotenv'
 import { env } from 'process'
 
 import { deleteUsers } from '../../helpers/functions/authentication/deleteUsers'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+  HTTP_URLS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -13,8 +18,10 @@ const username = env.LOGIN
 const password = env.PASSWORD
 const email = env.EMAIL
 
-const lengthyUsername = 'thisUsernameIsTooLongForTheDatabase'
-const lengthyPassword = 'thisPasswordIsTooLongForTheDatabase'
+const lengthyUsername =
+  'thisUsernameIsTooLongForTheDatabase'
+const lengthyPassword =
+  'thisPasswordIsTooLongForTheDatabase'
 const lengthyEmail = 'verylongemai.@gmail.com'
 
 describe('user registers successfully', () => {
@@ -29,8 +36,8 @@ describe('user registers successfully', () => {
       data: {
         username,
         password,
-        email
-      }
+        email,
+      },
     })
     expect(res.data.message).eq(HTTP_MESSAGES.CREATED)
     expect(res.data.status).eq(HTTP_CODES.CREATED)
@@ -45,13 +52,15 @@ describe('user tries to register providing an invalid username', () => {
       data: {
         username: '',
         password,
-        email
-      }
-    }).catch(err => {
+        email,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.USERNAME_MIN_LENGTH)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.USERNAME_MIN_LENGTH
+      )
     })
   })
 
@@ -62,13 +71,15 @@ describe('user tries to register providing an invalid username', () => {
       data: {
         username: lengthyUsername,
         password,
-        email
-      }
-    }).catch(err => {
+        email,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.USERNAME_MAX_LENGTH)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.USERNAME_MAX_LENGTH
+      )
     })
   })
 
@@ -78,13 +89,15 @@ describe('user tries to register providing an invalid username', () => {
       url: HTTP_URLS.REGISTER,
       data: {
         password,
-        email
-      }
-    }).catch(err => {
+        email,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.USERNAME_IS_REQUIRED)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.USERNAME_IS_REQUIRED
+      )
     })
   })
 })
@@ -97,14 +110,15 @@ describe('user tries to register providing an invalid password', () => {
       data: {
         username,
         password: '',
-        email
-      }
-
-    }).catch(err => {
+        email,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.PASSWORD_MIN_LENGTH)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.PASSWORD_MIN_LENGTH
+      )
     })
   })
 
@@ -115,14 +129,15 @@ describe('user tries to register providing an invalid password', () => {
       data: {
         username,
         password: lengthyPassword,
-        email
-      }
-
-    }).catch(err => {
+        email,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.PASSWORD_MAX_LENGTH)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.PASSWORD_MAX_LENGTH
+      )
     })
   })
 
@@ -132,14 +147,15 @@ describe('user tries to register providing an invalid password', () => {
       url: HTTP_URLS.REGISTER,
       data: {
         username,
-        email
-      }
-
-    }).catch(err => {
+        email,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.PASSWORD_IS_REQUIRED)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.PASSWORD_IS_REQUIRED
+      )
     })
   })
 })
@@ -152,14 +168,15 @@ describe('user tries to register providing an invalid email', () => {
       data: {
         username,
         password,
-        email: ''
-      }
-
-    }).catch(err => {
+        email: '',
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.EMAIL_MIN_LENGTH)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.EMAIL_MIN_LENGTH
+      )
     })
   })
 
@@ -170,14 +187,15 @@ describe('user tries to register providing an invalid email', () => {
       data: {
         username,
         password,
-        email: lengthyEmail
-      }
-
-    }).catch(err => {
+        email: lengthyEmail,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.EMAIL_MAX_LENGTH)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.EMAIL_MAX_LENGTH
+      )
     })
   })
 
@@ -187,14 +205,15 @@ describe('user tries to register providing an invalid email', () => {
       url: HTTP_URLS.REGISTER,
       data: {
         username,
-        password
-      }
-
-    }).catch(err => {
+        password,
+      },
+    }).catch((err) => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.BAD_REQUEST)
-      expect(response.message).eq(VALIDATION_ERRORS.EMAIL_IS_REQUIRED)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.EMAIL_IS_REQUIRED
+      )
     })
   })
 })

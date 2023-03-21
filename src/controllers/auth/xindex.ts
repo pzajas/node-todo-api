@@ -7,5 +7,5 @@ export const AuthController = {
   register,
   login,
   refresh,
-  logout
+  logout,
 }

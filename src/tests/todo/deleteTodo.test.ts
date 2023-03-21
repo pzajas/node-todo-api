@@ -5,7 +5,12 @@ import { env } from 'process'
 
 import { createTestTodo } from '../../helpers/functions/authentication/createTodo'
 import { signIn } from '../../helpers/functions/authentication/signIn'
-import { HTTP_CODES, HTTP_MESSAGES, HTTP_METHODS, HTTP_URLS } from '../../libs/http'
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+  HTTP_METHODS,
+  HTTP_URLS,
+} from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 dotenv.config()
@@ -31,8 +36,8 @@ describe('user deletes the todo successfully', () => {
       method: HTTP_METHODS.DELETE,
       url: `${HTTP_URLS.TODOS}/${id}`,
       headers: {
-        Cookie: `token=${token}`
-      }
+        Cookie: `token=${token}`,
+      },
     })
     expect(res.data.message).eq(HTTP_MESSAGES.DELETED)
     expect(res.data.status).eq(HTTP_CODES.OK)
@@ -51,13 +56,15 @@ describe('user tries to delete a single todo providing an invalid access token',
       method: HTTP_METHODS.DELETE,
       url: `${HTTP_URLS.TODOS}/${id}`,
       headers: {
-        Cookie: `token=${invalidToken}`
-      }
-    }).catch(err => {
+        Cookie: `token=${invalidToken}`,
+      },
+    }).catch((err) => {
       const res = err.response.data
 
       expect(res.status).eq(HTTP_CODES.UNAUTHORIZED)
-      expect(res.message).eq(VALIDATION_ERRORS.USER_IS_UNAUTHORIZED)
+      expect(res.message).eq(
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
     })
   })
 })

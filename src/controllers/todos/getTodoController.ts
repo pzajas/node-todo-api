@@ -12,15 +12,21 @@ interface Todo extends Response {
   userId?: number
 }
 
-export const getTodoController = async (req: Request, res: Response): Promise<Todo> => {
+export const getTodoController = async (
+  req: Request,
+  res: Response
+): Promise<Todo> => {
   const id: number = +req.params.id
 
   const todo = await prisma.todo.findUnique({
     where: {
-      id
-    }
+      id,
+    },
   })
 
-  if (todo !== null) return res.status(HTTP_CODES.OK).json({ ...HTTP_STATUSES.OK, todo })
+  if (todo !== null)
+    return res
+      .status(HTTP_CODES.OK)
+      .json({ ...HTTP_STATUSES.OK, todo })
   else throw new Error()
 }

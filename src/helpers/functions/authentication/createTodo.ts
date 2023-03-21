@@ -5,7 +5,9 @@ import { userIdFromCookieToken } from '../../../services/tokenService/getUserIdF
 const prisma = new PrismaClient()
 let id: number
 
-export const createTestTodo = async (token: string): Promise<any> => {
+export const createTestTodo = async (
+  token: string
+): Promise<any> => {
   const value = 'Mock Value'
   id = await userIdFromCookieToken(token)
 
@@ -15,10 +17,10 @@ export const createTestTodo = async (token: string): Promise<any> => {
       completed: false,
       user: {
         connect: {
-          id
-        }
-      }
-    }
+          id,
+        },
+      },
+    },
   })
   return todo.id
 }
