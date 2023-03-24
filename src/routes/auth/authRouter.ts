@@ -31,8 +31,4 @@ authRouter.post(
   tryCatch(AuthController.refresh)
 )
 
-authRouter.post(
-  '/logout',
-  authenticate,
-  tryCatch(AuthController.logout)
-)
+authRouter.post('/logout', tryCatch(AuthController.logout))

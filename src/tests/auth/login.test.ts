@@ -53,9 +53,7 @@ describe('user tries to log in providing invalid credentials', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.NOT_FOUND)
-      expect(response.message).eq(
-        HTTP_ERRORS.USER_WAS_NOT_FOUND
-      )
+      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
     })
   })
 })
@@ -73,9 +71,7 @@ describe('user tries to log in providing an invalid username', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.NOT_FOUND)
-      expect(response.message).eq(
-        HTTP_ERRORS.USER_WAS_NOT_FOUND
-      )
+      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
     })
   })
 
@@ -146,9 +142,7 @@ describe('user tries to log in providing an invalid password', () => {
       const response = err.response.data
 
       expect(response.status).eq(HTTP_CODES.NOT_FOUND)
-      expect(response.message).eq(
-        HTTP_ERRORS.USER_WAS_NOT_FOUND
-      )
+      expect(response.message).eq(VALIDATION_ERRORS.LOGIN)
     })
   })
 
