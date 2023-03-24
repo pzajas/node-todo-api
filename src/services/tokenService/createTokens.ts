@@ -5,7 +5,7 @@ import { env } from 'process'
 import { type ITokens } from '../../helpers/interfaces/user/user'
 import { deleteTokens } from './deleteTokens'
 
-const ACCESS_TOKEN_EXPIRATION_TIME = '10m'
+const ACCESS_TOKEN_EXPIRATION_TIME = '15s'
 const REFRESH_TOKEN_EXPIRATION_TIME = '30d'
 
 let token: string

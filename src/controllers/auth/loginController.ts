@@ -11,6 +11,7 @@ import {
   HTTP_ERRORS,
   HTTP_MESSAGES,
 } from '../../libs/http'
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 export const LoginController = async (
   req: Request,
@@ -23,10 +24,10 @@ export const LoginController = async (
 
   const user: User = await findUserByUsername(username)
 
-  if (user === null) {
+  if (!user) {
     throw customError(
       HTTP_CODES.NOT_FOUND,
-      HTTP_ERRORS.USER_WAS_NOT_FOUND
+      VALIDATION_ERRORS.LOGIN
     )
   }
 
@@ -38,7 +39,7 @@ export const LoginController = async (
   if (!validPassword) {
     throw customError(
       HTTP_CODES.NOT_FOUND,
-      HTTP_ERRORS.USER_WAS_NOT_FOUND
+      VALIDATION_ERRORS.LOGIN
     )
   }
 
@@ -49,7 +50,7 @@ export const LoginController = async (
   if (!token || !refreshToken) {
     throw customError(
       HTTP_CODES.NOT_FOUND,
-      HTTP_ERRORS.USER_WAS_NOT_FOUND
+      VALIDATION_ERRORS.LOGIN
     )
   }
 

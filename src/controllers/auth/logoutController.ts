@@ -1,26 +1,48 @@
 import { type Request, type Response } from 'express'
-
 import { customError } from '../../helpers/functions/handling/customError'
-import { HTTP_CODES, HTTP_MESSAGES } from '../../libs/http'
+
 import { decodeTokens } from '../../services/tokenService/decodeTokens'
 import { deleteTokens } from '../../services/tokenService/deleteTokens'
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
+
+import {
+  HTTP_CODES,
+  HTTP_MESSAGES,
+} from '../../libs/http'
 
 export const LogoutController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const token = req.headers.cookie
+  const tokenFromHeaders = req.headers.cookie
 
-  if (!token) {
+  if (!tokenFromHeaders) {
     throw customError(
-      HTTP_CODES.BAD_REQUEST,
-      HTTP_MESSAGES.TOKEN_MUST_BE_VALID
+      HTTP_CODES.UNAUTHORIZED,
+      VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
     )
   }
 
-  const id = await decodeTokens(token.split('token=')[1])
+  const token = tokenFromHeaders.split('token=')[1]
 
-  await deleteTokens(id)
+  if (!token) {
+    throw customError(
+      HTTP_CODES.UNAUTHORIZED,
+      VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+    )
+  }
+
+  const userId = await decodeTokens(token)
+
+  if (!userId) {
+    throw customError(
+      HTTP_CODES.UNAUTHORIZED,
+      VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+    )
+  }
+
+  await deleteTokens(userId)
+  res.clearCookie('token')
 
   return res.status(HTTP_CODES.OK).json({
     status: HTTP_CODES.OK,
