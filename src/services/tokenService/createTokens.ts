@@ -1,6 +1,7 @@
 /* eslint-disable padded-blocks */
-import jwt from 'jsonwebtoken'
 import { env } from 'process'
+
+import jwt from 'jsonwebtoken'
 
 import { type ITokens } from '../../helpers/interfaces/user/user'
 import { deleteTokens } from './deleteTokens'

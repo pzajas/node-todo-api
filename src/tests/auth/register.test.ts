@@ -1,9 +1,9 @@
-import axios from 'axios'
-import { expect } from 'chai'
-import dotenv from 'dotenv'
 import { env } from 'process'
 
-import { deleteUsers } from '../../helpers/functions/authentication/deleteUsers'
+import { expect } from 'chai'
+import axios from 'axios'
+import dotenv from 'dotenv'
+
 import {
   HTTP_CODES,
   HTTP_MESSAGES,
@@ -11,12 +11,17 @@ import {
   HTTP_URLS,
 } from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
+import { createUser } from '../../services/userService/createUser'
+import { deleteUsers } from '../../helpers/functions/authentication/deleteUsers'
 
 dotenv.config()
 
 const username = env.LOGIN
 const password = env.PASSWORD
 const email = env.EMAIL
+
+const uniqueUsername = 'Hajime'
+const uniqeEmail = 'Hajime@gmail.com'
 
 const lengthyUsername =
   'thisUsernameIsTooLongForTheDatabase'
@@ -41,6 +46,56 @@ describe('user registers successfully', () => {
     })
     expect(res.data.message).eq(HTTP_MESSAGES.CREATED)
     expect(res.data.status).eq(HTTP_CODES.CREATED)
+  })
+})
+
+describe('user tries to register providing an existing username', () => {
+  beforeEach(async () => {
+    await deleteUsers()
+    await createUser(username, password, email)
+  })
+  it('should expect an error when an existing username is provided', async () => {
+    await axios({
+      method: HTTP_METHODS.POST,
+      url: HTTP_URLS.REGISTER,
+      data: {
+        username,
+        password,
+        email: uniqeEmail,
+      },
+    }).catch((err) => {
+      const response = err.response.data
+
+      expect(response.status).eq(HTTP_CODES.CONFLICT)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.USER_IS_TAKEN
+      )
+    })
+  })
+})
+
+describe('user tries to register providing an existing email', () => {
+  beforeEach(async () => {
+    await deleteUsers()
+    await createUser(username, password, email)
+  })
+  it('should expect an error when an existing email is provided', async () => {
+    await axios({
+      method: HTTP_METHODS.POST,
+      url: HTTP_URLS.REGISTER,
+      data: {
+        username: uniqueUsername,
+        password,
+        email,
+      },
+    }).catch((err) => {
+      const response = err.response.data
+
+      expect(response.status).eq(HTTP_CODES.CONFLICT)
+      expect(response.message).eq(
+        VALIDATION_ERRORS.USER_IS_TAKEN
+      )
+    })
   })
 })
 

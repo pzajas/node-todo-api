@@ -9,7 +9,9 @@ export const deleteTodoController = async (
   req: Request,
   res: Response
 ): Promise<any> => {
-  if (req.params.id === null) throw new Error()
+  if (req.params.id === null) {
+    throw new Error()
+  }
   const id = +req.params.id
 
   const todo = await prisma.todo.delete({

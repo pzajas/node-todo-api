@@ -1,8 +1,8 @@
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import { authenticate } from './middlewares/authenticate'
 
+import { authenticate } from './middlewares/authenticate'
 import { errorHandler } from './middlewares/errorHandler'
 import rootRouter from './routes'
 

@@ -10,8 +10,6 @@ export const tryCatch = (asyncFunction: any) => {
     res: Response,
     next: NextFunction
   ) => {
-    console.log('LOG FROM TC')
-
     asyncFunction(req, res, next).catch(next)
   }
 }

@@ -3,13 +3,13 @@ import express from 'express'
 
 import { TodosController } from '../../controllers/todos/xindex'
 import { authenticate } from '../../middlewares/authenticate'
-import { tryCatch } from '../../middlewares/tryCatch'
-import { validate } from '../../middlewares/validate'
 import {
   patchTodoSchema,
   postTodoSchema,
   todoSchema,
 } from '../../validation/schemas/todoSchemas'
+import { tryCatch } from '../../middlewares/tryCatch'
+import { validate } from '../../middlewares/validate'
 
 export const todoRouter = express.Router()
 

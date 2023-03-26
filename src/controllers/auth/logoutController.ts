@@ -1,14 +1,11 @@
 import { type Request, type Response } from 'express'
-import { customError } from '../../helpers/functions/handling/customError'
 
-import { decodeTokens } from '../../services/tokenService/decodeTokens'
-import { deleteTokens } from '../../services/tokenService/deleteTokens'
+import { HTTP_CODES, HTTP_MESSAGES } from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
-import {
-  HTTP_CODES,
-  HTTP_MESSAGES,
-} from '../../libs/http'
+import { customError } from '../../helpers/functions/handling/customError'
+import { decodeTokens } from '../../services/tokenService/decodeTokens'
+import { deleteTokens } from '../../services/tokenService/deleteTokens'
 
 export const LogoutController = async (
   req: Request,

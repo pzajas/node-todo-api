@@ -1,5 +1,9 @@
 import { type IMockUser } from '../../interface/interfaces'
-import { createRandomEmail, createRandomName, createRandomPassword } from '../service/userService'
+import {
+  createRandomEmail,
+  createRandomName,
+  createRandomPassword,
+} from '../service/userService'
 
 export const createRandomUser = (): IMockUser => {
   const randomName = createRandomName()
@@ -9,7 +13,7 @@ export const createRandomUser = (): IMockUser => {
   const user = {
     username: randomName,
     email: randomMail,
-    password: randomPass
+    password: randomPass,
   }
 
   return user
