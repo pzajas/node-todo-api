@@ -13,6 +13,7 @@ export const HTTP_CODES = {
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
   NOT_FOUND: 404,
+  CONFLICT: 409,
   INTERNAL_ERROR: 500,
 }
 
@@ -39,7 +40,10 @@ export const HTTP_ERRORS = {
 }
 
 export const HTTP_STATUSES = {
-  OK: { status: HTTP_CODES.OK, message: HTTP_MESSAGES.OK },
+  OK: {
+    status: HTTP_CODES.OK,
+    message: HTTP_MESSAGES.OK,
+  },
   CREATED: {
     status: HTTP_CODES.CREATED,
     message: HTTP_MESSAGES.CREATED,

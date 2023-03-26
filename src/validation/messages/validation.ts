@@ -1,12 +1,15 @@
 export const VALIDATION_ERRORS = {
+  // REGISTER
+
   REGISTER:
     'Something went wrong during the registration process.',
-  LOGIN:
-    'You have provided a wrong username or password.',
+  // LOGIN
+
+  LOGIN: 'You have provided a wrong username or password.',
+
   REFRESH:
     'Something went wrong during the refresh token process.',
-  LOGOUT:
-    'Something went wrong during the logout process.',
+  LOGOUT: 'Something went wrong during the logout process.',
 
   USERNAME_MIN_LENGTH:
     'Property username must be at least 5 characters.',
@@ -34,17 +37,9 @@ export const VALIDATION_ERRORS = {
     'Property email must be at least 5 characters.',
   EMAIL_MAX_LENGTH:
     'Property email must be at most 20 characters.',
-  EMAIL_IS_REQUIRED:
-    'Property email is a required field.',
+  EMAIL_IS_REQUIRED: 'Property email is a required field.',
   EMAIL_SHOULD_BE_TRIMMED:
     'Property email should be a trimmed string.',
-
-  TODO_MIN_LENGTH:
-    'Property value must be at least 5 characters.',
-  TODO_MAX_LENGTH:
-    'Property value must be at most 50 characters.',
-  TODO_IS_REQUIRED:
-    'Property value is a required field.',
 
   REFRESH_MIN_LENGTH:
     'Property refreshToken cannot be an empty string.',
@@ -52,18 +47,29 @@ export const VALIDATION_ERRORS = {
     'Property refreshToken must be at most 20 characters.',
   REFRESH_IS_REQUIRED:
     'Property refreshToken is a required field.',
+  REFRESH_SHOULD_BE_STRING:
+    'Property refreshToken should be a string.',
+  REFRESH_SHOULD_BE_TRIMMED:
+    'Property refreshToken should be a trimmed string.',
+
+  TODO_MIN_LENGTH:
+    'Property value must be at least 5 characters.',
+  TODO_MAX_LENGTH:
+    'Property value must be at most 50 characters.',
+  TODO_IS_REQUIRED: 'Property value is a required field.',
 
   SHOULD_BE_NUMBER: 'Property :id should be a number.',
-  SHOULD_BE_STRING:
-    'Property value should be a string.',
-  SHOULD_BE_EMAIL:
-    'Property email must be a valid email',
+  SHOULD_BE_STRING: 'Property value should be a string.',
+  SHOULD_BE_EMAIL: 'Property email must be a valid email',
 
   TODO_IS_NULL:
     'The record you are looking for is not there.',
+
+  // USER
+
+  USER_IS_TAKEN: 'The user already exists.',
   USER_IS_UNAUTHORIZED:
     'You are not authorized to perform this action.',
 
-  PARAM_MUST_BE_A_NUMBER:
-    'Parameter :id must be a number.',
+  PARAM_MUST_BE_A_NUMBER: 'Parameter :id must be a number.',
 }

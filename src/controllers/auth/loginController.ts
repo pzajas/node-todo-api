@@ -1,22 +1,18 @@
-import { type User } from '@prisma/client'
 import { type Request, type Response } from 'express'
-import { assignTokens } from '../../services/tokenService/assignTokens'
+import { type User } from '@prisma/client'
 
-import { customError } from '../../helpers/functions/handling/customError'
-import { validateUserPassword } from '../../services/passwordService/validateUserPassword'
-import { findUserByUsername } from '../../services/userService/findUserByUsername'
-
-import {
-  HTTP_CODES,
-  HTTP_ERRORS,
-  HTTP_MESSAGES,
-} from '../../libs/http'
+import { HTTP_CODES, HTTP_MESSAGES } from '../../libs/http'
 import { VALIDATION_ERRORS } from '../../validation/messages/validation'
+
+import { assignTokens } from '../../services/tokenService/assignTokens'
+import { customError } from '../../helpers/functions/handling/customError'
+import { findUserByUsername } from '../../services/userService/findUserByUsername'
+import { validateUserPassword } from '../../services/passwordService/validateUserPassword'
 
 export const LoginController = async (
   req: Request,
   res: Response
-): Promise<any> => {
+): Promise<Response> => {
   const {
     username,
     password,

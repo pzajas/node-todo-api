@@ -1,11 +1,11 @@
-import axios from 'axios'
-import { expect } from 'chai'
-import dotenv from 'dotenv'
 import { env } from 'process'
+
+import { expect } from 'chai'
+import axios from 'axios'
+import dotenv from 'dotenv'
 
 import {
   HTTP_CODES,
-  HTTP_ERRORS,
   HTTP_MESSAGES,
   HTTP_METHODS,
   HTTP_TYPES,

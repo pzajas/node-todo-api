@@ -1,41 +1,36 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "plugin:react/recommended",
-    "standard-with-typescript",
-    "prettier"
-  ],
-  "overrides": [],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module",
-    "project": "./tsconfig.json"
-  },
-  "plugins": ["react", "simple-import-sort"],
-  "rules": {
-    "prefer-template": 1,
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "import/first": "error",
-    "import/newline-after-import": "error",
-    "import/no-duplicates": "error",
-    "function-paren-newline": "off",
-    "implicit-arrow-linebreak": "off",
-    "@typescript-eslint/strict-boolean-expressions": "warning",
-    "curly": ["error", "all"],
-    "max-len": [
-      "error",
-      {
-        "code": 40,
-        "tabWidth": 2,
-        "ignoreComments": true,
-        "ignoreUrls": true,
-        "ignoreStrings": true,
-        "ignoreTemplateLiterals": true
-      }
-    ]
-  }
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "standard-with-typescript",
+        "prettier"       
+    ],
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": ["./tsconfig.json"]
+    },
+    "plugins": [
+        "react",
+        "prettier",
+        "sort-imports-es6-autofix"
+    ],
+    "rules": {
+        "sort-imports-es6-autofix/sort-imports-es6": [2, {
+            "ignoreCase": false,
+            "ignoreMemberSort": false,
+            "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+          }],
+          
+        "prettier/prettier": ["error"],
+
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/no-misused-promises": "off",
+       " @typescript-eslint/prefer-nullish-coalescing": "off"
+    }
 }

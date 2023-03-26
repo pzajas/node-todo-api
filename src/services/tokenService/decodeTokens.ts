@@ -1,6 +1,4 @@
 import jwt from 'jsonwebtoken'
-import { env } from 'process'
-import { customError } from '../../helpers/functions/handling/customError'
 
 let userId: number
 

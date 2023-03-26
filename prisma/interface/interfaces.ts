@@ -16,5 +16,4 @@ export interface IMockToken {
   token: string
   userId: number
   type: Type
-
 }

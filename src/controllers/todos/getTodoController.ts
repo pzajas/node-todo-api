@@ -24,9 +24,11 @@ export const getTodoController = async (
     },
   })
 
-  if (todo !== null)
+  if (todo !== null) {
     return res
       .status(HTTP_CODES.OK)
       .json({ ...HTTP_STATUSES.OK, todo })
-  else throw new Error()
+  } else {
+    throw new Error()
+  }
 }

@@ -7,7 +7,6 @@ import {
 import { HTTP_CODES } from '../libs/http'
 import { VALIDATION_ERRORS } from '../validation/messages/validation'
 
-// let errorStatus: number
 let errorMessage: string
 
 export const validate =

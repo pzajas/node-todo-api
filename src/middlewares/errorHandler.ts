@@ -8,8 +8,6 @@ export const errorHandler = (
   res: any,
   _next: any
 ): any => {
-  console.log('LOG FROM ERR HANDLER')
-
   res
     .status(error.status)
     .json({ status: error.status, message: error.message })
