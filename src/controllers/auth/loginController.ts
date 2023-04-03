@@ -50,7 +50,9 @@ export const LoginController = async (
     )
   }
 
-  res.cookie('token', token, { httpOnly: true })
+  res.cookie('token', token, {
+    httpOnly: true,
+  })
 
   return res.status(HTTP_CODES.OK).json({
     status: HTTP_CODES.OK,

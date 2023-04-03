@@ -15,16 +15,26 @@ export const authenticate = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const token = req.headers.cookie?.split('token=')[1]
+    const headers = req.headers.cookie
+
+    if (!headers) {
+      throw customError(
+        HTTP_CODES.UNAUTHORIZED,
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
+      )
+    }
+
+    const token = headers.split('token=')[1]
 
     const isValidToken = jwt.decode(token)
 
     if (!isValidToken) {
       throw customError(
         HTTP_CODES.UNAUTHORIZED,
-        VALIDATION_ERRORS.LOGOUT
+        VALIDATION_ERRORS.USER_IS_UNAUTHORIZED
       )
     }
+
     next()
   } catch (err) {
     next(err)

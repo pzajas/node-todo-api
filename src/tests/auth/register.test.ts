@@ -1,8 +1,12 @@
-import { env } from 'process'
-
-import { expect } from 'chai'
 import axios from 'axios'
 import dotenv from 'dotenv'
+
+import { createUser } from '../../services/userService/createUser'
+import { deleteUsers } from '../../helpers/functions/authentication/deleteUsers'
+import { env } from 'process'
+import { expect } from 'chai'
+
+import { VALIDATION_ERRORS } from '../../validation/messages/validation'
 
 import {
   HTTP_CODES,
@@ -10,9 +14,6 @@ import {
   HTTP_METHODS,
   HTTP_URLS,
 } from '../../libs/http'
-import { VALIDATION_ERRORS } from '../../validation/messages/validation'
-import { createUser } from '../../services/userService/createUser'
-import { deleteUsers } from '../../helpers/functions/authentication/deleteUsers'
 
 dotenv.config()
 
@@ -44,6 +45,7 @@ describe('user registers successfully', () => {
         email,
       },
     })
+
     expect(res.data.message).eq(HTTP_MESSAGES.CREATED)
     expect(res.data.status).eq(HTTP_CODES.CREATED)
   })

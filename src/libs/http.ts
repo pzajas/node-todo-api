@@ -22,7 +22,7 @@ export const HTTP_MESSAGES = {
   CREATED:
     'The record was successfully created and added to the database',
   DELETED:
-    'The record was successfully deleted and removed from the database',
+    'The record was successfully deleted from the database',
   BAD_REQUEST: 'bad request',
   UNAUTHORIZED: 'unauthorized',
   FORBIDDEN: 'forbidden',
