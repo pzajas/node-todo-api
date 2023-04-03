@@ -27,10 +27,12 @@
             "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
           }],
           
-        "prettier/prettier": ["error"],
+        "prettier/prettier": ["error", {
+            "endOfLine": "auto"
+        }],
 
-        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/strict-boolean-expressions": "warn",
         "@typescript-eslint/no-misused-promises": "off",
-       " @typescript-eslint/prefer-nullish-coalescing": "off"
+        "@typescript-eslint/prefer-nullish-coalescing": "off"
     }
 }

@@ -1,15 +1,30 @@
 export const VALIDATION_ERRORS = {
   // REGISTER
-
   REGISTER:
     'Something went wrong during the registration process.',
   // LOGIN
-
   LOGIN: 'You have provided a wrong username or password.',
-
+  // REFRESH
   REFRESH:
     'Something went wrong during the refresh token process.',
+  // LOGOUT
   LOGOUT: 'Something went wrong during the logout process.',
+
+  // USER
+  USER_IS_TAKEN: 'The user already exists.',
+  USER_IS_UNAUTHORIZED:
+    'You are not authorized to perform this action.',
+
+  // TODO
+
+  TODO_NOT_FOUND: 'The todo was not found.',
+  TODO_ALREADY_EXISTS: 'The todo is already on the list.',
+  TODO_ID_NOT_PROVIDED:
+    'You must provide the id of todo you want to interact with.',
+  TODO_LIST_IS_EMPTY:
+    'You do not have any todos added yet.',
+  VALUE_SHOULD_BE_TRIMMED:
+    'Property value should be trimmed.',
 
   USERNAME_MIN_LENGTH:
     'Property username must be at least 5 characters.',
@@ -62,14 +77,8 @@ export const VALIDATION_ERRORS = {
   SHOULD_BE_STRING: 'Property value should be a string.',
   SHOULD_BE_EMAIL: 'Property email must be a valid email',
 
+  PARAM_MUST_BE_A_NUMBER: 'Parameter :id must be a number.',
+
   TODO_IS_NULL:
     'The record you are looking for is not there.',
-
-  // USER
-
-  USER_IS_TAKEN: 'The user already exists.',
-  USER_IS_UNAUTHORIZED:
-    'You are not authorized to perform this action.',
-
-  PARAM_MUST_BE_A_NUMBER: 'Parameter :id must be a number.',
 }
